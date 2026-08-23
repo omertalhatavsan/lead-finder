@@ -166,8 +166,9 @@
     </div>
 
     <button class="top-button">
-      Potansiyel Müşteriler
-    </button>
+  Potansiyel Müşteriler
+  <span id="leadCount">0</span>
+</button>
   </header>
 
   <main>
@@ -277,7 +278,8 @@ let leadList = [];
   const districtSelect = document.getElementById("district");
   const categorySelect = document.getElementById("category");
   const previewSection = document.querySelector(".preview");
-
+const leadCount = document.getElementById("leadCount");
+  
   searchButton.addEventListener("click", () => {
     const selectedDistrict = districtSelect.value;
     const selectedCategory = categorySelect.value;
@@ -393,7 +395,8 @@ let leadList = [];
   }
 
   leadList.push(business);
-
+leadCount.textContent = leadList.length;
+    
   alert(name + " potansiyel müşteri listesine eklendi.");
 
   console.log(leadList);
