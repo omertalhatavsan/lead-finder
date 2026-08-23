@@ -537,6 +537,16 @@ leadCount.textContent = leadList.length;
   `).join("");
 
 }
+  function removeFromLeadList(name) {
+
+  leadList = leadList.filter(
+    business => business.name !== name
+  );
+
+  leadCount.textContent = leadList.length;
+
+  renderLeadList();
+}
   topButton.addEventListener("click", () => {
   leadPanel.classList.add("active");
 });
