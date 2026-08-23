@@ -301,35 +301,85 @@
       `;
     } else {
       results.forEach(business => {
-        html += `
-          <div style="
-            background:#11151b;
-            border:1px solid #222833;
-            border-radius:14px;
-            padding:20px;
-            margin-bottom:14px;
-          ">
-            <h3 style="margin-bottom:10px;">
-              ${business.name}
-            </h3>
+  const mapsLink =
+    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      business.name + " " + business.district
+    )}`;
 
-            <p style="color:#a0a7b2; margin-bottom:6px;">
-              ⭐ ${business.rating} · 💬 ${business.reviews} yorum
-            </p>
+  html += `
+    <div style="
+      background:#11151b;
+      border:1px solid #222833;
+      border-radius:14px;
+      padding:20px;
+      margin-bottom:14px;
+    ">
 
-            <p style="
-              color:${business.website ? "#7bd99a" : "#ff7b7b"};
-              font-weight:700;
-            ">
-              ${business.website ? "🌐 Web sitesi var" : "🌐 Web sitesi YOK"}
-            </p>
-          </div>
-        `;
-      });
+      <h3 style="margin-bottom:10px;">
+        ${business.name}
+      </h3>
+
+      <p style="color:#a0a7b2; margin-bottom:6px;">
+        ⭐ ${business.rating} · 💬 ${business.reviews} yorum
+      </p>
+
+      <p style="
+        color:${business.website ? "#7bd99a" : "#ff7b7b"};
+        font-weight:700;
+        margin-bottom:15px;
+      ">
+        ${business.website ? "🌐 Web sitesi var" : "🌐 Web sitesi YOK"}
+      </p>
+
+      <div style="
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+      ">
+
+        <a
+          href="${mapsLink}"
+          target="_blank"
+          style="
+            text-decoration:none;
+            background:#1a1f28;
+            border:1px solid #303744;
+            color:white;
+            padding:10px 14px;
+            border-radius:8px;
+            font-size:14px;
+          "
+        >
+          📍 Haritada Aç
+        </a>
+
+        <button
+          onclick="addToLeadList('${business.name}')"
+          style="
+            background:#6f7cff;
+            border:none;
+            color:white;
+            padding:10px 14px;
+            border-radius:8px;
+            font-weight:700;
+            cursor:pointer;
+          "
+        >
+          + Listeye Ekle
+        </button>
+
+      </div>
+
+    </div>
+  `;
+});
     }
 
     previewSection.innerHTML = html;
   });
+  function addToLeadList(name) {
+  alert(name + " potansiyel müşteri listesine eklendi.");
+}
 </script>
 </body>
 </html>
