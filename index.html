@@ -503,20 +503,36 @@ leadCount.textContent = leadList.length;
     
     <div class="lead-item">
 
-      <h3>${business.name}</h3>
+  <h3>${business.name}</h3>
 
-      <p>
-        ⭐ ${business.rating} · 💬 ${business.reviews} yorum
-      </p>
+  <p>
+    ⭐ ${business.rating} · 💬 ${business.reviews} yorum
+  </p>
 
-      <p style="
-        margin-top:6px;
-        color:${business.website ? "#7bd99a" : "#ff7b7b"};
-      ">
-        ${business.website ? "🌐 Web sitesi var" : "🌐 Web sitesi YOK"}
-      </p>
+  <p style="
+    margin-top:6px;
+    color:${business.website ? "#7bd99a" : "#ff7b7b"};
+  ">
+    ${business.website ? "🌐 Web sitesi var" : "🌐 Web sitesi YOK"}
+  </p>
 
-    </div>
+  <button
+    onclick="removeFromLeadList('${business.name}')"
+    style="
+      margin-top:12px;
+      background:#25171a;
+      color:#ff8b8b;
+      border:1px solid #4a2328;
+      padding:8px 12px;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:13px;
+    "
+  >
+    Listeden Çıkar
+  </button>
+
+</div>
 
   `).join("");
 
