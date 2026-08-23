@@ -408,8 +408,12 @@ const closeLeadPanel = document.getElementById("closeLeadPanel");
       </h3>
 
       <p style="color:#a0a7b2; margin-bottom:6px;">
-        ⭐ ${business.rating} · 💬 ${business.reviews} yorum
-      </p>
+  ${business.phone ? "☎️ " + business.phone : "☎️ Telefon bilgisi yok"}
+</p>
+
+<p style="color:#a0a7b2; margin-bottom:6px;">
+  ${business.openingHours ? "🕒 " + business.openingHours : "🕒 Çalışma saati bilgisi yok"}
+</p>
 
       <p style="
         color:${business.website ? "#7bd99a" : "#ff7b7b"};
