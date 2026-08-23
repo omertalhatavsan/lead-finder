@@ -398,10 +398,12 @@ const closeLeadPanel = document.getElementById("closeLeadPanel");
       `;
     } else {
       results.forEach(business => {
-  const mapsLink =
-    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-      business.name + " " + business.district
-    )}`;
+ const mapsLink =
+  business.lat && business.lon
+    ? `https://www.google.com/maps?q=${business.lat},${business.lon}`
+    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        business.name + " " + business.district
+      )}`;
 
   html += `
     <div style="
@@ -453,6 +455,23 @@ const closeLeadPanel = document.getElementById("closeLeadPanel");
         >
           📍 Haritada Aç
         </a>
+        ${business.website ? `
+  <a
+    href="${business.website}"
+    target="_blank"
+    style="
+      text-decoration:none;
+      background:#17241c;
+      border:1px solid #2b4a36;
+      color:#8fe0a8;
+      padding:10px 14px;
+      border-radius:8px;
+      font-size:14px;
+    "
+  >
+    🌐 Siteyi Aç
+  </a>
+` : ""}
 
         <button
           onclick="addToLeadList('${business.name}')"
