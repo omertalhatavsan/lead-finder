@@ -479,6 +479,7 @@ const closeLeadPanel = document.getElementById("closeLeadPanel");
   }
 
   leadList.push(business);
+    localStorage.setItem("leadList", JSON.stringify(leadList));
   
 leadCount.textContent = leadList.length;
     renderLeadList();
