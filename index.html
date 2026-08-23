@@ -353,7 +353,7 @@
       website: false
     }
   ];
-let leadList = [];
+let leadList = JSON.parse(localStorage.getItem("leadList")) || [];
   const searchButton = document.querySelector(".search-button");
   const districtSelect = document.getElementById("district");
   const categorySelect = document.getElementById("category");
@@ -551,6 +551,9 @@ leadCount.textContent = leadList.length;
 
   renderLeadList();
 }
+
+  leadCount.textContent = leadList.length;
+renderLeadList();
   
   topButton.addEventListener("click", () => {
   leadPanel.classList.add("active");
