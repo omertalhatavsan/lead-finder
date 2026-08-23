@@ -366,7 +366,16 @@ const leadPanel = document.getElementById("leadPanel");
 const closeLeadPanel = document.getElementById("closeLeadPanel");
   const leadPanelContent = document.getElementById("leadPanelContent");
   
-  searchButton.addEventListener("click", () => {
+  searchButton.addEventListener("click", async () => {
+    if (businesses.length === 0) {
+  searchButton.textContent = "İşletmeler yükleniyor...";
+  searchButton.disabled = true;
+
+  await fetchTattooBusinessesFromOSM();
+
+  searchButton.textContent = "İşletmeleri Bul";
+  searchButton.disabled = false;
+}
     const selectedDistrict = districtSelect.value;
     const selectedCategory = categorySelect.value;
 
