@@ -327,6 +327,29 @@
 
 </div>
 <script>
+  async function fetchTattooBusinessesFromOSM() {
+
+  const query = `
+    [out:json][timeout:60];
+
+    area["name"="Kadıköy"]["boundary"="administrative"]->.a;
+
+    nwr["shop"="tattoo"](area.a);
+
+    out center tags;
+  `;
+
+  const url =
+    "https://overpass-api.de/api/interpreter?data=" +
+    encodeURIComponent(query);
+
+  const response = await fetch(url);
+
+  const data = await response.json();
+
+  console.log(data.elements);
+}
+  fetchTattooBusinessesFromOSM();
   const businesses = [
     {
       name: "Black Ink Tattoo",
