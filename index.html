@@ -353,7 +353,7 @@
 businesses = realBusinesses;    
 console.log(realBusinesses);
 }
-  fetchTattooBusinessesFromOSM();
+
   let businesses = [];
 let leadList = JSON.parse(localStorage.getItem("leadList")) || [];
   const searchButton = document.querySelector(".search-button");
@@ -367,17 +367,71 @@ const closeLeadPanel = document.getElementById("closeLeadPanel");
   const leadPanelContent = document.getElementById("leadPanelContent");
   
   searchButton.addEventListener("click", async () => {
-    if (businesses.length === 0) {
-  searchButton.textContent = "İşletmeler yükleniyor...";
-  searchButton.disabled = true;
 
-  await fetchTattooBusinessesFromOSM();
+  const selectedDistrict = districtSelect.value;
+  const selectedCategory = categorySelect.value;
 
-  searchButton.textContent = "İşletmeleri Bul";
-  searchButton.disabled = false;
-}
-    const selectedDistrict = districtSelect.value;
-    const selectedCategory = categorySelect.value;
+  if (
+    selectedDistrict === "İlçe seç" ||
+    selectedCategory === "Sektör seç"
+  ) {
+    alert("Önce ilçe ve sektör seçmelisin.");
+    return;
+  }
+
+  if (
+    selectedDistrict !== "Kadıköy" ||
+    selectedCategory !== "Dövme"
+  ) {
+    previewSection.innerHTML = `
+      <p class="eyebrow">SONUÇLAR</p>
+      <h2>Potansiyel işletmeler</h2>
+
+      <div class="empty-card">
+        <strong>Bu seçim henüz aktif değil.</strong>
+        Şimdilik gerçek veri bağlantısı Kadıköy / Dövme için hazır.
+      </div>
+    `;
+
+    return;
+  }
+
+  if (businesses.length === 0) {
+
+    searchButton.textContent = "İşletmeler yükleniyor...";
+    searchButton.disabled = true;
+
+    try {
+
+      await fetchTattooBusinessesFromOSM();
+
+      if (businesses.length === 0) {
+        throw new Error("İşletme verisi alınamadı.");
+      }
+
+    } catch (error) {
+
+      console.error(error);
+
+      previewSection.innerHTML = `
+        <p class="eyebrow">SONUÇLAR</p>
+        <h2>Potansiyel işletmeler</h2>
+
+        <div class="empty-card">
+          <strong>Veriler şu anda alınamadı.</strong>
+          Birkaç saniye sonra tekrar deneyebilirsin.
+        </div>
+      `;
+
+      return;
+
+    } finally {
+
+      searchButton.textContent = "İşletmeleri Bul";
+      searchButton.disabled = false;
+
+    }
+  }
 
     const results = businesses.filter(business =>
       business.district === selectedDistrict &&
