@@ -350,35 +350,11 @@
     lon: item.lon || item.center?.lon || null
   }));
 
+businesses = realBusinesses;    
 console.log(realBusinesses);
 }
   fetchTattooBusinessesFromOSM();
-  const businesses = [
-    {
-      name: "Black Ink Tattoo",
-      district: "Kadıköy",
-      category: "Dövme",
-      rating: 4.9,
-      reviews: 487,
-      website: false
-    },
-    {
-      name: "Moda Tattoo Studio",
-      district: "Kadıköy",
-      category: "Dövme",
-      rating: 4.8,
-      reviews: 241,
-      website: true
-    },
-    {
-      name: "Dark Needle Tattoo",
-      district: "Kadıköy",
-      category: "Dövme",
-      rating: 4.7,
-      reviews: 328,
-      website: false
-    }
-  ];
+  let businesses = [];
 let leadList = JSON.parse(localStorage.getItem("leadList")) || [];
   const searchButton = document.querySelector(".search-button");
   const districtSelect = document.getElementById("district");
