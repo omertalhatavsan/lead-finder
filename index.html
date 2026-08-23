@@ -1,15 +1,250 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lead Finder</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lead Finder</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0a0c10;
+      color: #f5f7fa;
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 6%;
+      border-bottom: 1px solid #1d222b;
+      background: #0d1015;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .logo span {
+      color: #6f7cff;
+    }
+
+    .top-button {
+      background: #171b22;
+      color: #fff;
+      border: 1px solid #2a303a;
+      padding: 12px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 90%);
+      margin: auto;
+      padding-top: 80px;
+    }
+
+    .eyebrow {
+      color: #6f7cff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: clamp(42px, 7vw, 76px);
+      line-height: 1;
+      max-width: 760px;
+      margin-bottom: 24px;
+    }
+
+    h1 span {
+      color: #6f7cff;
+    }
+
+    .subtitle {
+      color: #9aa2ad;
+      max-width: 620px;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    .search-panel {
+      margin-top: 45px;
+      background: #11151b;
+      border: 1px solid #222833;
+      border-radius: 18px;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field label {
+      color: #9098a3;
+      font-size: 13px;
+    }
+
+    select {
+      background: #0b0e13;
+      color: #fff;
+      border: 1px solid #2a303b;
+      border-radius: 10px;
+      padding: 15px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .search-button {
+      align-self: end;
+      background: #6f7cff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 16px 24px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .preview {
+      margin-top: 60px;
+    }
+
+    .preview h2 {
+      font-size: 28px;
+      margin-bottom: 18px;
+    }
+
+    .empty-card {
+      border: 1px dashed #2b313c;
+      border-radius: 16px;
+      padding: 55px 20px;
+      text-align: center;
+      color: #838c98;
+      background: #0d1015;
+    }
+
+    .empty-card strong {
+      display: block;
+      color: #fff;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 760px) {
+      .search-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .search-button {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-    <h1>Lead Finder</h1>
-    <p>İşletme bulma sistemimiz çalışıyor.</p>
+  <header>
+    <div class="logo">
+      Lead<span>Finder</span>
+    </div>
+
+    <button class="top-button">
+      Potansiyel Müşteriler
+    </button>
+  </header>
+
+  <main>
+
+    <p class="eyebrow">
+      WEB SATIŞ ASİSTANI
+    </p>
+
+    <h1>
+      Yeni müşterilerini <span>bul.</span>
+    </h1>
+
+    <p class="subtitle">
+      Bölgeyi ve sektörü seç.
+      Web sitesi olmayan ve dijital tarafta geliştirmeye açık işletmeleri tek ekranda bul.
+    </p>
+
+    <div class="search-panel">
+
+      <div class="field">
+        <label for="district">
+          İlçe
+        </label>
+
+        <select id="district">
+          <option>İlçe seç</option>
+          <option>Kadıköy</option>
+          <option>Beşiktaş</option>
+          <option>Üsküdar</option>
+          <option>Ataşehir</option>
+          <option>Ümraniye</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="category">
+          Sektör
+        </label>
+
+        <select id="category">
+          <option>Sektör seç</option>
+          <option>Dövme</option>
+          <option>Berber</option>
+          <option>Güzellik Merkezi</option>
+          <option>Spor Salonu</option>
+          <option>Veteriner</option>
+          <option>Emlak</option>
+        </select>
+      </div>
+
+      <button class="search-button">
+        İşletmeleri Bul
+      </button>
+
+    </div>
+
+    <section class="preview">
+
+      <p class="eyebrow">
+        SONUÇLAR
+      </p>
+
+      <h2>
+        Potansiyel işletmeler
+      </h2>
+
+      <div class="empty-card">
+        <strong>
+          Henüz arama yapılmadı.
+        </strong>
+
+        İlçe ve sektör seçerek başlayın.
+      </div>
+
+    </section>
+
+  </main>
 
 </body>
 </html>
