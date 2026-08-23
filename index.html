@@ -272,7 +272,7 @@
       website: false
     }
   ];
-
+let leadList = [];
   const searchButton = document.querySelector(".search-button");
   const districtSelect = document.getElementById("district");
   const categorySelect = document.getElementById("category");
@@ -378,7 +378,25 @@
     previewSection.innerHTML = html;
   });
   function addToLeadList(name) {
+
+  const business = businesses.find(
+    business => business.name === name
+  );
+
+  const alreadyAdded = leadList.some(
+    item => item.name === name
+  );
+
+  if (alreadyAdded) {
+    alert(name + " zaten listede.");
+    return;
+  }
+
+  leadList.push(business);
+
   alert(name + " potansiyel müşteri listesine eklendi.");
+
+  console.log(leadList);
 }
 </script>
 </body>
