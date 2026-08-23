@@ -541,9 +541,10 @@ leadCount.textContent = leadList.length;
   function removeFromLeadList(name) {
 
   leadList = leadList.filter(
-    localStorage.setItem("leadList", JSON.stringify(leadList));
     business => business.name !== name
   );
+
+  localStorage.setItem("leadList", JSON.stringify(leadList));
 
   leadCount.textContent = leadList.length;
 
