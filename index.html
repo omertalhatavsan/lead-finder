@@ -362,6 +362,7 @@ const leadCount = document.getElementById("leadCount");
   const topButton = document.querySelector(".top-button");
 const leadPanel = document.getElementById("leadPanel");
 const closeLeadPanel = document.getElementById("closeLeadPanel");
+  const leadPanelContent = document.getElementById("leadPanelContent");
   
   searchButton.addEventListener("click", () => {
     const selectedDistrict = districtSelect.value;
@@ -479,10 +480,46 @@ const closeLeadPanel = document.getElementById("closeLeadPanel");
 
   leadList.push(business);
 leadCount.textContent = leadList.length;
+    renderLeadList();
     
   alert(name + " potansiyel müşteri listesine eklendi.");
 
   console.log(leadList);
+}
+  function renderLeadList() {
+
+  if (leadList.length === 0) {
+
+    leadPanelContent.innerHTML = `
+      <div class="panel-empty">
+        Henüz potansiyel müşteri eklemedin.
+      </div>
+    `;
+
+    return;
+  }
+
+  leadPanelContent.innerHTML = leadList.map(business => `
+    
+    <div class="lead-item">
+
+      <h3>${business.name}</h3>
+
+      <p>
+        ⭐ ${business.rating} · 💬 ${business.reviews} yorum
+      </p>
+
+      <p style="
+        margin-top:6px;
+        color:${business.website ? "#7bd99a" : "#ff7b7b"};
+      ">
+        ${business.website ? "🌐 Web sitesi var" : "🌐 Web sitesi YOK"}
+      </p>
+
+    </div>
+
+  `).join("");
+
 }
   topButton.addEventListener("click", () => {
   leadPanel.classList.add("active");
