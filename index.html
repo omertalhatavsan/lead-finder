@@ -245,6 +245,91 @@
     </section>
 
   </main>
+<script>
+  const businesses = [
+    {
+      name: "Black Ink Tattoo",
+      district: "Kadıköy",
+      category: "Dövme",
+      rating: 4.9,
+      reviews: 487,
+      website: false
+    },
+    {
+      name: "Moda Tattoo Studio",
+      district: "Kadıköy",
+      category: "Dövme",
+      rating: 4.8,
+      reviews: 241,
+      website: true
+    },
+    {
+      name: "Dark Needle Tattoo",
+      district: "Kadıköy",
+      category: "Dövme",
+      rating: 4.7,
+      reviews: 328,
+      website: false
+    }
+  ];
 
+  const searchButton = document.querySelector(".search-button");
+  const districtSelect = document.getElementById("district");
+  const categorySelect = document.getElementById("category");
+  const previewSection = document.querySelector(".preview");
+
+  searchButton.addEventListener("click", () => {
+    const selectedDistrict = districtSelect.value;
+    const selectedCategory = categorySelect.value;
+
+    const results = businesses.filter(business =>
+      business.district === selectedDistrict &&
+      business.category === selectedCategory
+    );
+
+    let html = `
+      <p class="eyebrow">SONUÇLAR</p>
+      <h2>Potansiyel işletmeler</h2>
+    `;
+
+    if (results.length === 0) {
+      html += `
+        <div class="empty-card">
+          <strong>İşletme bulunamadı.</strong>
+          Bu seçim için henüz örnek veri yok.
+        </div>
+      `;
+    } else {
+      results.forEach(business => {
+        html += `
+          <div style="
+            background:#11151b;
+            border:1px solid #222833;
+            border-radius:14px;
+            padding:20px;
+            margin-bottom:14px;
+          ">
+            <h3 style="margin-bottom:10px;">
+              ${business.name}
+            </h3>
+
+            <p style="color:#a0a7b2; margin-bottom:6px;">
+              ⭐ ${business.rating} · 💬 ${business.reviews} yorum
+            </p>
+
+            <p style="
+              color:${business.website ? "#7bd99a" : "#ff7b7b"};
+              font-weight:700;
+            ">
+              ${business.website ? "🌐 Web sitesi var" : "🌐 Web sitesi YOK"}
+            </p>
+          </div>
+        `;
+      });
+    }
+
+    previewSection.innerHTML = html;
+  });
+</script>
 </body>
 </html>
