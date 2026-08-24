@@ -422,18 +422,61 @@
 
   const data = await response.json();
 
-  const realBusinesses = data.elements
-    .filter(item => item.tags && item.tags.name)
-    .map(item => ({
-      name: item.tags.name,
+ const realBusinesses = data.elements
+  .filter(item => item.tags && item.tags.name)
+  .map(item => {
+
+    const tags = item.tags;
+
+    return {
+      name: tags.name,
       district: district,
       category: category,
-      website: item.tags.website || null,
-      phone: item.tags.phone || item.tags["contact:phone"] || null,
-      openingHours: item.tags.opening_hours || null,
-      lat: item.lat || item.center?.lat || null,
-      lon: item.lon || item.center?.lon || null
-    }));
+
+      website:
+        tags.website ||
+        tags["contact:website"] ||
+        tags.url ||
+        null,
+
+      phone:
+        tags.phone ||
+        tags["contact:phone"] ||
+        tags.mobile ||
+        tags["contact:mobile"] ||
+        null,
+
+      email:
+        tags.email ||
+        tags["contact:email"] ||
+        null,
+
+      instagram:
+        tags.instagram ||
+        tags["contact:instagram"] ||
+        null,
+
+      facebook:
+        tags.facebook ||
+        tags["contact:facebook"] ||
+        null,
+
+      openingHours:
+        tags.opening_hours ||
+        null,
+
+      lat:
+        item.lat ||
+        item.center?.lat ||
+        null,
+
+      lon:
+        item.lon ||
+        item.center?.lon ||
+        null
+    };
+
+  });
 
   businesses = realBusinesses;
 
@@ -602,11 +645,33 @@ html += `
       </h3>
 
       <p style="color:#a0a7b2; margin-bottom:6px;">
-  ${business.phone ? "☎️ " + business.phone : "☎️ Telefon bilgisi yok"}
+  ${business.phone
+    ? "☎️ " + business.phone
+    : "☎️ Telefon bilgisi yok"}
 </p>
 
+${business.email ? `
+  <p style="color:#a0a7b2; margin-bottom:6px;">
+    ✉️ ${business.email}
+  </p>
+` : ""}
+
+${business.instagram ? `
+  <p style="color:#a0a7b2; margin-bottom:6px;">
+    📸 Instagram: ${business.instagram}
+  </p>
+` : ""}
+
+${business.facebook ? `
+  <p style="color:#a0a7b2; margin-bottom:6px;">
+    Facebook: ${business.facebook}
+  </p>
+` : ""}
+
 <p style="color:#a0a7b2; margin-bottom:6px;">
-  ${business.openingHours ? "🕒 " + business.openingHours : "🕒 Çalışma saati bilgisi yok"}
+  ${business.openingHours
+    ? "🕒 " + business.openingHours
+    : "🕒 Çalışma saati bilgisi yok"}
 </p>
 
       <p style="
