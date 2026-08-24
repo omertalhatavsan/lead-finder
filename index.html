@@ -216,6 +216,37 @@
   text-align: center;
   padding: 40px 10px;
 }
+    .result-filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.result-filter {
+  width: auto;
+  padding: 10px 16px;
+  margin: 0;
+  border: 1px solid #303744;
+  border-radius: 999px;
+  background: #11151b;
+  color: #9aa2ad;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.result-filter:hover {
+  border-color: #6f7cff;
+  color: #ffffff;
+}
+
+.result-filter.active {
+  background: #6f7cff;
+  color: #ffffff;
+  border-color: #6f7cff;
+}
   </style>
 </head>
 
@@ -483,7 +514,7 @@ try {
     return 0;
   });
 
-    const noWebsiteCount = results.filter(
+   const noWebsiteCount = results.filter(
   business => !business.website
 ).length;
 
@@ -499,10 +530,28 @@ let html = `
     font-size:15px;
     font-weight:700;
     margin-top:-8px;
-    margin-bottom:22px;
+    margin-bottom:18px;
   ">
     🔥 ${noWebsiteCount} işletmenin web sitesi yok
   </p>
+
+  <div class="result-filters">
+    <button
+      class="result-filter active"
+      data-filter="all"
+      type="button"
+    >
+      Tümü (${results.length})
+    </button>
+
+    <button
+      class="result-filter"
+      data-filter="no-website"
+      type="button"
+    >
+      Web Sitesi Olmayanlar (${noWebsiteCount})
+    </button>
+  </div>
 `;
 
     if (results.length === 0) {
@@ -521,14 +570,18 @@ let html = `
         business.name + " " + business.district
       )}`;
 
-  html += `
-    <div style="
+html += `
+  <div
+    class="business-card"
+    data-has-website="${business.website ? "yes" : "no"}"
+    style="
       background:#11151b;
       border:1px solid #222833;
       border-radius:14px;
       padding:20px;
       margin-bottom:14px;
-    ">
+    "
+  >
 
       <h3 style="margin-bottom:10px;">
         ${business.name}
@@ -612,6 +665,40 @@ let html = `
     }
 
     previewSection.innerHTML = html;
+    const filterButtons = previewSection.querySelectorAll(".result-filter");
+const businessCards = previewSection.querySelectorAll(".business-card");
+
+filterButtons.forEach(button => {
+
+  button.addEventListener("click", () => {
+
+    filterButtons.forEach(btn => {
+      btn.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    const filter = button.dataset.filter;
+
+    businessCards.forEach(card => {
+
+      if (filter === "all") {
+        card.style.display = "";
+        return;
+      }
+
+      if (filter === "no-website") {
+        card.style.display =
+          card.dataset.hasWebsite === "no"
+            ? ""
+            : "none";
+      }
+
+    });
+
+  });
+
+});
   });
   function addToLeadList(name) {
 
