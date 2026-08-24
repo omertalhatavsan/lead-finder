@@ -472,10 +472,16 @@ try {
 
 }
 
-    const results = businesses.filter(business =>
-      business.district === selectedDistrict &&
-      business.category === selectedCategory
-    );
+    const results = businesses
+  .filter(business =>
+    business.district === selectedDistrict &&
+    business.category === selectedCategory
+  )
+  .sort((a, b) => {
+    if (!a.website && b.website) return -1;
+    if (a.website && !b.website) return 1;
+    return 0;
+  });
 
     let html = `
   <p class="eyebrow">SONUÇLAR</p>
