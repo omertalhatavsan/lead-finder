@@ -518,6 +518,10 @@ try {
   business => !business.website
 ).length;
 
+const callableLeadCount = results.filter(
+  business => !business.website && business.phone
+).length;
+    
 let html = `
   <p class="eyebrow">SONUÇLAR</p>
 
@@ -551,6 +555,15 @@ let html = `
     >
       Web Sitesi Olmayanlar (${noWebsiteCount})
     </button>
+
+    <button
+  class="result-filter"
+  data-filter="callable"
+  type="button"
+>
+  🔥 Aranabilir Leadler (${callableLeadCount})
+</button>
+
   </div>
 `;
 
@@ -571,9 +584,10 @@ let html = `
       )}`;
 
 html += `
-  <div
-    class="business-card"
-    data-has-website="${business.website ? "yes" : "no"}"
+ <div
+  class="business-card"
+  data-has-website="${business.website ? "yes" : "no"}"
+  data-has-phone="${business.phone ? "yes" : "no"}"
     style="
       background:#11151b;
       border:1px solid #222833;
@@ -693,6 +707,14 @@ filterButtons.forEach(button => {
             ? ""
             : "none";
       }
+
+      if (filter === "callable") {
+  card.style.display =
+    card.dataset.hasWebsite === "no" &&
+    card.dataset.hasPhone === "yes"
+      ? ""
+      : "none";
+}
 
     });
 
