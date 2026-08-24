@@ -483,9 +483,26 @@ try {
     return 0;
   });
 
-    let html = `
+    const noWebsiteCount = results.filter(
+  business => !business.website
+).length;
+
+let html = `
   <p class="eyebrow">SONUÇLAR</p>
-  <h2>${results.length} işletme bulundu</h2>
+
+  <h2>
+    ${results.length} işletme bulundu
+  </h2>
+
+  <p style="
+    color:#ff8b8b;
+    font-size:15px;
+    font-weight:700;
+    margin-top:-8px;
+    margin-bottom:22px;
+  ">
+    🔥 ${noWebsiteCount} işletmenin web sitesi yok
+  </p>
 `;
 
     if (results.length === 0) {
