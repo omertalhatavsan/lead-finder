@@ -390,45 +390,38 @@ const closeLeadPanel = document.getElementById("closeLeadPanel");
     return;
   }
 
-  if (businesses.length === 0) {
+  searchButton.textContent = "İşletmeler yükleniyor...";
+searchButton.disabled = true;
 
-    searchButton.textContent = "İşletmeler yükleniyor...";
-    searchButton.disabled = true;
+try {
 
-    try {
+  await fetchBusinessesFromOSM(
+    selectedDistrict,
+    selectedCategory
+  );
 
-      await fetchBusinessesFromOSM(
-  selectedDistrict,
-  selectedCategory
-);
+} catch (error) {
 
-      if (businesses.length === 0) {
-        throw new Error("İşletme verisi alınamadı.");
-      }
+  console.error(error);
 
-    } catch (error) {
+  previewSection.innerHTML = `
+    <p class="eyebrow">SONUÇLAR</p>
+    <h2>Potansiyel işletmeler</h2>
 
-      console.error(error);
+    <div class="empty-card">
+      <strong>Veriler şu anda alınamadı.</strong>
+      Birkaç saniye sonra tekrar deneyebilirsin.
+    </div>
+  `;
 
-      previewSection.innerHTML = `
-        <p class="eyebrow">SONUÇLAR</p>
-        <h2>Potansiyel işletmeler</h2>
+  return;
 
-        <div class="empty-card">
-          <strong>Veriler şu anda alınamadı.</strong>
-          Birkaç saniye sonra tekrar deneyebilirsin.
-        </div>
-      `;
+} finally {
 
-      return;
+  searchButton.textContent = "İşletmeleri Bul";
+  searchButton.disabled = false;
 
-    } finally {
-
-      searchButton.textContent = "İşletmeleri Bul";
-      searchButton.disabled = false;
-
-    }
-  }
+}
 
     const results = businesses.filter(business =>
       business.district === selectedDistrict &&
