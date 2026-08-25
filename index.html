@@ -755,18 +755,28 @@ ${business.facebook ? `
 </p>
 
       <p style="
-        color:${business.website ? "#7bd99a" : "#ff7b7b"};
-        font-weight:700;
-        margin-bottom:15px;
-      ">
-        ${business.websiteStatus === "confirmed"
-  ? "🌐 Web sitesi var"
-  : business.websiteStatus === "probable"
-    ? "🌐 Muhtemel web sitesi bulundu"
-    : "🔥 Web sitesi bulunamadı"}
-    ${business.websiteStatus === "probable" && business.probableWebsite ? `
+  color:${
+    business.websiteStatus === "confirmed"
+      ? "#7bd99a"
+      : business.websiteStatus === "probable"
+        ? "#e5c76b"
+        : "#ff7b7b"
+  };
+  font-weight:700;
+  margin-bottom:15px;
+">
+  ${
+    business.websiteStatus === "confirmed"
+      ? "🌐 Web sitesi var"
+      : business.websiteStatus === "probable"
+        ? "🟡 Muhtemel web sitesi bulundu"
+        : "🔎 Web sitesi doğrulanamadı"
+  }
+</p>
+
+${business.websiteStatus === "probable" && business.probableWebsite ? `
   <p style="
-    color:#7bd99a;
+    color:#e5c76b;
     font-size:13px;
     margin-top:-8px;
     margin-bottom:15px;
@@ -774,7 +784,6 @@ ${business.facebook ? `
     ${business.probableWebsite}
   </p>
 ` : ""}
-      </p>
 
       <div style="
         display:flex;
