@@ -407,6 +407,36 @@
 
 </div>
 <script>
+
+async function verifyWebsiteFromEmail(email) {
+
+  if (!email) {
+    return null;
+  }
+
+  try {
+
+    const url =
+      "https://lead-finder-api.omertalhatavsan.workers.dev/" +
+      "?mode=verify-website" +
+      "&email=" + encodeURIComponent(email);
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return await response.json();
+
+  } catch (error) {
+
+    console.error("Website doğrulama hatası:", error);
+    return null;
+
+  }
+}
+  
   async function fetchBusinessesFromOSM(district, category) {
 
   const url =
@@ -487,7 +517,42 @@
 
   });
 
-  businesses = realBusinesses;
+  const verifiedBusinesses = await Promise.all(
+
+  realBusinesses.map(async business => {
+
+    // OSM zaten siteyi verdiyse tekrar kontrol etmiyoruz.
+    if (business.websiteStatus === "confirmed") {
+      return business;
+    }
+
+    // E-posta yoksa domain doğrulaması yapamayız.
+    if (!business.email) {
+      return business;
+    }
+
+    const verification =
+      await verifyWebsiteFromEmail(business.email);
+
+    if (
+      verification &&
+      verification.status === "probable"
+    ) {
+
+      business.websiteStatus = "probable";
+      business.probableWebsite =
+        verification.website ||
+        `https://${verification.domain}`;
+
+    }
+
+    return business;
+
+  })
+
+);
+
+businesses = verifiedBusinesses;
 
   console.log(
     district,
@@ -567,12 +632,12 @@ try {
   });
 
    const noWebsiteCount = results.filter(
-  business => business.websiteStatus !== "confirmed"
+  business => business.websiteStatus === "unknown"
 ).length;
 
 const callableLeadCount = results.filter(
   business =>
-    business.websiteStatus !== "confirmed" &&
+    business.websiteStatus === "unknown" &&
     business.phone
 ).length;
     
@@ -640,7 +705,11 @@ let html = `
 html += `
  <div
   class="business-card"
-  data-has-website="${business.websiteStatus === "confirmed" ? "yes" : "no"}"
+  data-has-website="${
+  business.websiteStatus === "unknown"
+    ? "no"
+    : "yes"
+}"
   data-has-phone="${business.phone ? "yes" : "no"}"
     style="
       background:#11151b;
@@ -692,7 +761,19 @@ ${business.facebook ? `
       ">
         ${business.websiteStatus === "confirmed"
   ? "🌐 Web sitesi var"
-  : "🔎 Web sitesi doğrulanamadı"}
+  : business.websiteStatus === "probable"
+    ? "🌐 Muhtemel web sitesi bulundu"
+    : "🔥 Web sitesi bulunamadı"}
+    ${business.websiteStatus === "probable" && business.probableWebsite ? `
+  <p style="
+    color:#7bd99a;
+    font-size:13px;
+    margin-top:-8px;
+    margin-bottom:15px;
+  ">
+    ${business.probableWebsite}
+  </p>
+` : ""}
       </p>
 
       <div style="
@@ -858,7 +939,9 @@ leadCount.textContent = leadList.length;
 ">
   ${business.websiteStatus === "confirmed" || business.website
   ? "🌐 Web sitesi var"
-  : "🔎 Web sitesi doğrulanamadı"}
+  : business.websiteStatus === "probable"
+    ? "🌐 Muhtemel web sitesi bulundu"
+    : "🔥 Web sitesi bulunamadı"}
 </p>
 
   <button
