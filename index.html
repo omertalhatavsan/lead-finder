@@ -247,6 +247,243 @@
   color: #ffffff;
   border-color: #6f7cff;
 }
+
+    /* =========================
+   TRIANGLE SELECTOR WHEELS
+========================= */
+
+.search-panel {
+  display: block;
+  padding: 34px;
+}
+
+.wheel-area {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.native-selector {
+  display: none;
+}
+
+.wheel-box {
+  text-align: center;
+}
+
+.wheel-title {
+  color: #8d96a3;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 22px;
+}
+
+.triangle-wheel {
+  width: 340px;
+  height: 340px;
+  max-width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.wheel-ring {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.35s cubic-bezier(.2,.8,.2,1);
+}
+
+.wheel-segment {
+  position: absolute;
+
+  width: 110px;
+  height: 120px;
+
+  left: 50%;
+  top: 50%;
+
+  margin-left: -55px;
+  margin-top: -60px;
+
+  transform-origin: 55px 60px;
+
+  border: 0;
+  padding: 0;
+
+  background: transparent;
+  cursor: pointer;
+}
+
+.wheel-triangle {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  left: 0;
+  top: -105px;
+
+  clip-path: polygon(
+    50% 0%,
+    100% 100%,
+    0% 100%
+  );
+
+  background:
+    linear-gradient(
+      180deg,
+      #242a35,
+      #12161d
+    );
+
+  border: 1px solid #333b48;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  padding: 0 10px 24px;
+
+  transition:
+    transform .2s ease,
+    background .2s ease,
+    filter .2s ease;
+}
+
+.wheel-segment:hover .wheel-triangle {
+  filter: brightness(1.35);
+  transform: translateY(-5px);
+}
+
+.wheel-segment.active .wheel-triangle {
+  background:
+    linear-gradient(
+      180deg,
+      #8790ff,
+      #5864e8
+    );
+
+  filter:
+    drop-shadow(0 0 12px rgba(111,124,255,.55));
+}
+
+.wheel-label {
+  font-size: 11px;
+  line-height: 1.1;
+  font-weight: 800;
+  color: white;
+
+  max-width: 86px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wheel-center {
+  position: absolute;
+
+  width: 126px;
+  height: 126px;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #222936,
+      #0d1015 70%
+    );
+
+  border: 1px solid #303744;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 20;
+
+  box-shadow:
+    0 20px 45px rgba(0,0,0,.35);
+}
+
+.wheel-center-small {
+  color: #727c8a;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin-bottom: 7px;
+}
+
+.wheel-center-value {
+  color: white;
+  font-size: 15px;
+  line-height: 1.15;
+  font-weight: 800;
+
+  width: 100px;
+
+  word-break: break-word;
+}
+
+.wheel-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+  margin-top: 14px;
+}
+
+.wheel-arrow {
+  width: 42px;
+  height: 36px;
+
+  border-radius: 8px;
+  border: 1px solid #303744;
+
+  background: #151a22;
+  color: white;
+
+  cursor: pointer;
+
+  font-size: 17px;
+}
+
+.wheel-arrow:hover {
+  border-color: #6f7cff;
+}
+
+.search-action {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 35px;
+}
+
+.search-action .search-button {
+  min-width: 240px;
+}
+
+@media (max-width: 820px) {
+
+  .wheel-area {
+    grid-template-columns: 1fr;
+    gap: 55px;
+  }
+
+  .triangle-wheel {
+    width: 310px;
+    height: 310px;
+  }
+
+}
+    
   </style>
 </head>
 
@@ -407,7 +644,192 @@
 
 </div>
 <script>
+function createTriangleWheel({
+  selectId,
+  ringId,
+  valueId,
+  prevId,
+  nextId
+}) {
 
+  const select =
+    document.getElementById(selectId);
+
+  const ring =
+    document.getElementById(ringId);
+
+  const valueDisplay =
+    document.getElementById(valueId);
+
+  const prevButton =
+    document.getElementById(prevId);
+
+  const nextButton =
+    document.getElementById(nextId);
+
+
+  const items = Array.from(select.options)
+    .slice(1)
+    .map(option => option.value);
+
+
+  const visibleCount = 8;
+
+  let offset = 0;
+  let selectedValue = null;
+
+
+  function renderWheel() {
+
+    ring.innerHTML = "";
+
+    for (let i = 0; i < visibleCount; i++) {
+
+      const itemIndex =
+        (offset + i) % items.length;
+
+      const value =
+        items[itemIndex];
+
+      const angle =
+        (360 / visibleCount) * i;
+
+
+      const segment =
+        document.createElement("button");
+
+      segment.type = "button";
+
+      segment.className =
+        "wheel-segment";
+
+
+      if (value === selectedValue) {
+        segment.classList.add("active");
+      }
+
+
+      segment.style.transform =
+        `rotate(${angle}deg)`;
+
+
+      const triangle =
+        document.createElement("div");
+
+      triangle.className =
+        "wheel-triangle";
+
+
+      const label =
+        document.createElement("span");
+
+      label.className =
+        "wheel-label";
+
+      label.textContent =
+        value;
+
+
+      /* Yazıyı dik tut */
+
+      label.style.transform =
+        `rotate(${-angle}deg)`;
+
+
+      triangle.appendChild(label);
+      segment.appendChild(triangle);
+
+
+      segment.addEventListener(
+        "click",
+        () => {
+
+          selectedValue = value;
+
+          select.value = value;
+
+          valueDisplay.textContent =
+            value;
+
+          renderWheel();
+
+        }
+      );
+
+
+      ring.appendChild(segment);
+
+    }
+
+  }
+
+
+  function move(direction) {
+
+    offset =
+      (
+        offset +
+        direction +
+        items.length
+      ) % items.length;
+
+    renderWheel();
+
+  }
+
+
+  prevButton.addEventListener(
+    "click",
+    () => move(-1)
+  );
+
+
+  nextButton.addEventListener(
+    "click",
+    () => move(1)
+  );
+
+
+  /* Mouse wheel ile çevirme */
+
+  ring.parentElement.addEventListener(
+    "wheel",
+    event => {
+
+      event.preventDefault();
+
+      if (event.deltaY > 0) {
+        move(1);
+      } else {
+        move(-1);
+      }
+
+    },
+    {
+      passive: false
+    }
+  );
+
+
+  renderWheel();
+
+}
+  createTriangleWheel({
+  selectId: "district",
+  ringId: "districtWheelRing",
+  valueId: "districtWheelValue",
+  prevId: "districtPrev",
+  nextId: "districtNext"
+});
+
+
+createTriangleWheel({
+  selectId: "category",
+  ringId: "categoryWheelRing",
+  valueId: "categoryWheelValue",
+  prevId: "categoryPrev",
+  nextId: "categoryNext"
+});
 async function verifyWebsiteFromEmail(email) {
 
   if (!email) {
