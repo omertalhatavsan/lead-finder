@@ -436,6 +436,36 @@ async function verifyWebsiteFromEmail(email) {
 
   }
 }
+
+async function searchWebsiteOnWeb(name, district) {
+
+  if (!name || !district) {
+    return null;
+  }
+
+  try {
+
+    const url =
+      "https://lead-finder-api.omertalhatavsan.workers.dev/" +
+      "?mode=search-website" +
+      "&name=" + encodeURIComponent(name) +
+      "&district=" + encodeURIComponent(district);
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return await response.json();
+
+  } catch (error) {
+
+    console.error("Web arama doğrulama hatası:", error);
+    return null;
+
+  }
+}
   
   async function fetchBusinessesFromOSM(district, category) {
 
@@ -521,30 +551,71 @@ async function verifyWebsiteFromEmail(email) {
 
   realBusinesses.map(async business => {
 
-    // OSM zaten siteyi verdiyse tekrar kontrol etmiyoruz.
+    // 1 — OSM doğrudan site verdiyse işlem tamam.
     if (business.websiteStatus === "confirmed") {
       return business;
     }
 
-    // E-posta yoksa domain doğrulaması yapamayız.
-    if (!business.email) {
+
+    // 2 — E-posta varsa domain üzerinden kontrol et.
+    if (business.email) {
+
+      const emailVerification =
+        await verifyWebsiteFromEmail(business.email);
+
+      if (
+        emailVerification &&
+        emailVerification.status === "probable"
+      ) {
+
+        business.websiteStatus = "probable";
+
+        business.probableWebsite =
+          emailVerification.website ||
+          `https://${emailVerification.domain}`;
+
+        return business;
+      }
+
+    }
+
+
+    // 3 — Hâlâ site bulunamadıysa web'de işletmeyi ara.
+    const webVerification =
+      await searchWebsiteOnWeb(
+        business.name,
+        business.district
+      );
+
+
+    // Güvenilir resmi site bulundu.
+    if (
+      webVerification &&
+      webVerification.status === "found"
+    ) {
+
+      business.websiteStatus = "confirmed_search";
+      business.website = webVerification.website;
+      business.websiteSource = "web_search";
+
       return business;
     }
 
-    const verification =
-      await verifyWebsiteFromEmail(business.email);
 
+    // Web araması yapıldı fakat güvenilir resmi site bulunamadı.
     if (
-      verification &&
-      verification.status === "probable"
+      webVerification &&
+      webVerification.status === "not_found"
     ) {
 
-      business.websiteStatus = "probable";
-      business.probableWebsite =
-        verification.website ||
-        `https://${verification.domain}`;
+      business.websiteStatus = "not_found";
 
+      return business;
     }
+
+
+    // Servis hatası vb. olduysa kesin hüküm vermiyoruz.
+    business.websiteStatus = "unknown";
 
     return business;
 
@@ -631,13 +702,13 @@ try {
     return 0;
   });
 
-   const noWebsiteCount = results.filter(
-  business => business.websiteStatus === "unknown"
+   cconst noWebsiteCount = results.filter(
+  business => business.websiteStatus === "not_found"
 ).length;
 
 const callableLeadCount = results.filter(
   business =>
-    business.websiteStatus === "unknown" &&
+    business.websiteStatus === "not_found" &&
     business.phone
 ).length;
     
@@ -655,7 +726,7 @@ let html = `
     margin-top:-8px;
     margin-bottom:18px;
   ">
-    🔎 ${noWebsiteCount} işletmenin web sitesi doğrulanamadı
+    🔥 ${noWebsiteCount} işletmenin web sitesi bulunamadı
   </p>
 
   <div class="result-filters">
@@ -706,7 +777,7 @@ html += `
  <div
   class="business-card"
   data-has-website="${
-  business.websiteStatus === "unknown"
+  business.websiteStatus === "not_found"
     ? "no"
     : "yes"
 }"
@@ -756,8 +827,11 @@ ${business.facebook ? `
 
       <p style="
   color:${
-    business.websiteStatus === "confirmed"
-      ? "#7bd99a"
+    (
+  business.websiteStatus === "confirmed" ||
+  business.websiteStatus === "confirmed_search"
+)
+  ? "#7bd99a"
       : business.websiteStatus === "probable"
         ? "#e5c76b"
         : "#ff7b7b"
@@ -766,12 +840,20 @@ ${business.facebook ? `
   margin-bottom:15px;
 ">
   ${
-    business.websiteStatus === "confirmed"
-      ? "🌐 Web sitesi var"
-      : business.websiteStatus === "probable"
-        ? "🟡 Muhtemel web sitesi bulundu"
-        : "🔎 Web sitesi doğrulanamadı"
-  }
+  business.websiteStatus === "confirmed"
+    ? "🌐 Web sitesi var"
+
+    : business.websiteStatus === "confirmed_search"
+      ? "🌐 Web sitesi web aramasında bulundu"
+
+    : business.websiteStatus === "probable"
+      ? "🟡 Muhtemel web sitesi bulundu"
+
+    : business.websiteStatus === "not_found"
+      ? "🔥 Web sitesi bulunamadı"
+
+    : "🔎 Web sitesi doğrulanamadı"
+}
 </p>
 
 ${business.websiteStatus === "probable" && business.probableWebsite ? `
