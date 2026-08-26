@@ -247,12 +247,96 @@
   color: #ffffff;
   border-color: #6f7cff;
 }
+
+/* =========================
+   PREMIUM MOTION LAYER
+========================= */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Arka plan glow'ları */
+.bg-glow {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.42;
+  will-change: transform;
+}
+
+.bg-glow.one {
+  width: 420px;
+  height: 420px;
+  background: rgba(111, 124, 255, 0.25);
+  top: 80px;
+  left: -100px;
+}
+
+.bg-glow.two {
+  width: 520px;
+  height: 520px;
+  background: rgba(104, 73, 255, 0.18);
+  top: 420px;
+  right: -140px;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(35px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(.2,.8,.2,1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Arama panelini cam görünüme al */
+.search-panel {
+  background: rgba(17, 21, 27, 0.72);
+  border: 1px solid rgba(130, 140, 255, 0.16);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(255, 255, 255, 0.02),
+    0 0 40px rgba(111, 124, 255, 0.06);
+}
+
+/* Hafif hover */
+.search-panel {
+  transition:
+    transform 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.search-panel:hover {
+  transform: translateY(-3px);
+  border-color: rgba(130, 140, 255, 0.30);
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.34),
+    0 0 50px rgba(111, 124, 255, 0.10);
+}
     
   </style>
 </head>
 
 <body>
-
+<div class="bg-glow one"></div>
+<div class="bg-glow two"></div>
+  
   <header>
     <div class="logo">
       Lead<span>Finder</span>
@@ -266,20 +350,20 @@
 
   <main>
 
-    <p class="eyebrow">
+    <p class="eyebrow reveal">
       WEB SATIŞ ASİSTANI
     </p>
 
-    <h1>
+    <h1 class="reveal">
       Yeni müşterilerini <span>bul.</span>
     </h1>
 
-    <p class="subtitle">
+    <p class="subtitle reveal">
       Bölgeyi ve sektörü seç.
       Web sitesi olmayan ve dijital tarafta geliştirmeye açık işletmeleri tek ekranda bul.
     </p>
 
-    <div class="search-panel">
+    <div class="search-panel reveal">
 
       <div class="field">
         <label for="district">
@@ -367,9 +451,9 @@
 
     </div>
 
-    <section class="preview">
+    <section class="preview reveal">
 
-      <p class="eyebrow">
+     <p class="eyebrow reveal">
         SONUÇLAR
       </p>
 
@@ -408,7 +492,44 @@
 
 </div>
 <script>
+const revealElements = document.querySelectorAll(".reveal");
 
+const revealObserver = new IntersectionObserver(
+  entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+      }
+    });
+  },
+  {
+    threshold: 0.14
+  }
+);
+
+revealElements.forEach(element => {
+  revealObserver.observe(element);
+});
+
+
+const glowOne = document.querySelector(".bg-glow.one");
+const glowTwo = document.querySelector(".bg-glow.two");
+
+window.addEventListener("scroll", () => {
+
+  const scrollY = window.scrollY;
+
+  if (glowOne) {
+    glowOne.style.transform =
+      `translateY(${scrollY * 0.12}px)`;
+  }
+
+  if (glowTwo) {
+    glowTwo.style.transform =
+      `translateY(${-scrollY * 0.08}px)`;
+  }
+
+});
 async function verifyWebsiteFromEmail(email) {
 
   if (!email) {
@@ -674,7 +795,7 @@ try {
   console.error(error);
 
   previewSection.innerHTML = `
-    <p class="eyebrow">SONUÇLAR</p>
+   <p class="eyebrow reveal">SONUÇLAR</p>
     <h2>Potansiyel işletmeler</h2>
 
     <div class="empty-card">
@@ -714,7 +835,7 @@ const callableLeadCount = results.filter(
 ).length;
     
 let html = `
-  <p class="eyebrow">SONUÇLAR</p>
+  <p class="eyebrow reveal">SONUÇLAR</p>
 
   <h2>
     ${results.length} işletme bulundu
