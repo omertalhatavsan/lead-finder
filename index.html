@@ -515,93 +515,210 @@
       Web sitesi olmayan ve dijital tarafta geliştirmeye açık işletmeleri tek ekranda bul.
     </p>
 
-    <div class="search-panel">
+   <div class="search-panel">
 
-      <div class="field">
-        <label for="district">
-          İlçe
-        </label>
+  <!-- Sistem bunları kullanmaya devam edecek.
+       Kullanıcı görmeyecek. -->
+  <div class="native-selector">
 
-        <select id="district">
-  <option>İlçe seç</option>
-  <option>Adalar</option>
-  <option>Arnavutköy</option>
-  <option>Ataşehir</option>
-  <option>Avcılar</option>
-  <option>Bağcılar</option>
-  <option>Bahçelievler</option>
-  <option>Bakırköy</option>
-  <option>Başakşehir</option>
-  <option>Bayrampaşa</option>
-  <option>Beşiktaş</option>
-  <option>Beykoz</option>
-  <option>Beylikdüzü</option>
-  <option>Beyoğlu</option>
-  <option>Büyükçekmece</option>
-  <option>Çatalca</option>
-  <option>Çekmeköy</option>
-  <option>Esenler</option>
-  <option>Esenyurt</option>
-  <option>Eyüpsultan</option>
-  <option>Fatih</option>
-  <option>Gaziosmanpaşa</option>
-  <option>Güngören</option>
-  <option>Kadıköy</option>
-  <option>Kağıthane</option>
-  <option>Kartal</option>
-  <option>Küçükçekmece</option>
-  <option>Maltepe</option>
-  <option>Pendik</option>
-  <option>Sancaktepe</option>
-  <option>Sarıyer</option>
-  <option>Silivri</option>
-  <option>Sultanbeyli</option>
-  <option>Sultangazi</option>
-  <option>Şile</option>
-  <option>Şişli</option>
-  <option>Tuzla</option>
-  <option>Ümraniye</option>
-  <option>Üsküdar</option>
-  <option>Zeytinburnu</option>
-</select>
+    <select id="district">
+      <option>İlçe seç</option>
+      <option>Adalar</option>
+      <option>Arnavutköy</option>
+      <option>Ataşehir</option>
+      <option>Avcılar</option>
+      <option>Bağcılar</option>
+      <option>Bahçelievler</option>
+      <option>Bakırköy</option>
+      <option>Başakşehir</option>
+      <option>Bayrampaşa</option>
+      <option>Beşiktaş</option>
+      <option>Beykoz</option>
+      <option>Beylikdüzü</option>
+      <option>Beyoğlu</option>
+      <option>Büyükçekmece</option>
+      <option>Çatalca</option>
+      <option>Çekmeköy</option>
+      <option>Esenler</option>
+      <option>Esenyurt</option>
+      <option>Eyüpsultan</option>
+      <option>Fatih</option>
+      <option>Gaziosmanpaşa</option>
+      <option>Güngören</option>
+      <option>Kadıköy</option>
+      <option>Kağıthane</option>
+      <option>Kartal</option>
+      <option>Küçükçekmece</option>
+      <option>Maltepe</option>
+      <option>Pendik</option>
+      <option>Sancaktepe</option>
+      <option>Sarıyer</option>
+      <option>Silivri</option>
+      <option>Sultanbeyli</option>
+      <option>Sultangazi</option>
+      <option>Şile</option>
+      <option>Şişli</option>
+      <option>Tuzla</option>
+      <option>Ümraniye</option>
+      <option>Üsküdar</option>
+      <option>Zeytinburnu</option>
+    </select>
+
+    <select id="category">
+      <option>Sektör seç</option>
+      <option>Dövme</option>
+      <option>Berber</option>
+      <option>Güzellik Merkezi</option>
+      <option>Spor Salonu</option>
+      <option>Veteriner</option>
+      <option>Emlak</option>
+      <option>Diş Kliniği</option>
+      <option>Psikolog</option>
+      <option>Fizyoterapi</option>
+      <option>Kuaför</option>
+      <option>Nail Studio</option>
+      <option>Spa</option>
+      <option>Kafe</option>
+      <option>Restoran</option>
+      <option>Oto Yıkama</option>
+      <option>Oto Servis</option>
+      <option>Oto Galeri</option>
+      <option>Fotoğrafçı</option>
+      <option>Avukat</option>
+      <option>Muhasebeci</option>
+      <option>Çiçekçi</option>
+    </select>
+
+  </div>
+
+
+  <div class="wheel-area">
+
+    <!-- İLÇE ÇARKI -->
+    <div class="wheel-box">
+
+      <div class="wheel-title">
+        İLÇENİ SEÇ
       </div>
 
-      <div class="field">
-        <label for="category">
-          Sektör
-        </label>
+      <div
+        class="triangle-wheel"
+        id="districtWheel"
+      >
 
-        <select id="category">
-  <option>Sektör seç</option>
-  <option>Dövme</option>
-  <option>Berber</option>
-  <option>Güzellik Merkezi</option>
-  <option>Spor Salonu</option>
-  <option>Veteriner</option>
-  <option>Emlak</option>
-  <option>Diş Kliniği</option>
-  <option>Psikolog</option>
-  <option>Fizyoterapi</option>
-  <option>Kuaför</option>
-  <option>Nail Studio</option>
-  <option>Spa</option>
-  <option>Kafe</option>
-  <option>Restoran</option>
-  <option>Oto Yıkama</option>
-  <option>Oto Servis</option>
-  <option>Oto Galeri</option>
-  <option>Fotoğrafçı</option>
-  <option>Avukat</option>
-  <option>Muhasebeci</option>
-  <option>Çiçekçi</option>
-</select>
+        <div
+          class="wheel-ring"
+          id="districtWheelRing"
+        ></div>
+
+        <div class="wheel-center">
+
+          <div class="wheel-center-small">
+            İLÇE
+          </div>
+
+          <div
+            class="wheel-center-value"
+            id="districtWheelValue"
+          >
+            Seçilmedi
+          </div>
+
+        </div>
+
       </div>
 
-      <button class="search-button">
-        İşletmeleri Bul
-      </button>
+      <div class="wheel-controls">
+
+        <button
+          type="button"
+          class="wheel-arrow"
+          id="districtPrev"
+        >
+          ←
+        </button>
+
+        <button
+          type="button"
+          class="wheel-arrow"
+          id="districtNext"
+        >
+          →
+        </button>
+
+      </div>
 
     </div>
+
+
+    <!-- SEKTÖR ÇARKI -->
+    <div class="wheel-box">
+
+      <div class="wheel-title">
+        SEKTÖRÜ SEÇ
+      </div>
+
+      <div
+        class="triangle-wheel"
+        id="categoryWheel"
+      >
+
+        <div
+          class="wheel-ring"
+          id="categoryWheelRing"
+        ></div>
+
+        <div class="wheel-center">
+
+          <div class="wheel-center-small">
+            SEKTÖR
+          </div>
+
+          <div
+            class="wheel-center-value"
+            id="categoryWheelValue"
+          >
+            Seçilmedi
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="wheel-controls">
+
+        <button
+          type="button"
+          class="wheel-arrow"
+          id="categoryPrev"
+        >
+          ←
+        </button>
+
+        <button
+          type="button"
+          class="wheel-arrow"
+          id="categoryNext"
+        >
+          →
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="search-action">
+
+    <button class="search-button">
+      İşletmeleri Bul
+    </button>
+
+  </div>
+
+</div>
 
     <section class="preview">
 
