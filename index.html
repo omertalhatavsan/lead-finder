@@ -707,6 +707,167 @@ h1,
 
   will-change: transform;
 }
+
+/* =========================
+   PREMIUM SELECTS + FILTER PILLS
+========================= */
+
+.field label {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  color: #7f8997;
+}
+
+/* Select kutuları */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20, 24, 32, 0.95),
+      rgba(11, 14, 19, 0.95)
+    );
+
+  color: #f5f7fa;
+
+  border:
+    1px solid rgba(122, 134, 255, 0.18);
+
+  border-radius: 12px;
+
+  padding:
+    15px 46px 15px 16px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease,
+    transform 0.2s ease;
+}
+
+/* Select alanı wrapper gibi davransın */
+.field {
+  position: relative;
+}
+
+/* Sağdaki özel ok */
+.field::after {
+  content: "⌄";
+
+  position: absolute;
+
+  right: 16px;
+  bottom: 15px;
+
+  font-size: 18px;
+  line-height: 1;
+
+  color: #7c86ff;
+
+  pointer-events: none;
+
+  transition:
+    transform 0.25s ease,
+    color 0.25s ease;
+}
+
+/* Hover */
+.field:hover select {
+  border-color:
+    rgba(111, 124, 255, 0.42);
+
+  box-shadow:
+    0 0 0 3px rgba(111, 124, 255, 0.05),
+    0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+/* Focus */
+select:focus {
+  border-color: #6f7cff;
+
+  box-shadow:
+    0 0 0 3px rgba(111, 124, 255, 0.12),
+    0 10px 30px rgba(0, 0, 0, 0.22);
+}
+
+/* Focus sırasında ok hafif hareket etsin */
+.field:focus-within::after {
+  transform: translateY(2px);
+  color: #a1a9ff;
+}
+
+
+/* =========================
+   PREMIUM FILTER PILLS
+========================= */
+
+.result-filter {
+  position: relative;
+  overflow: hidden;
+
+  background:
+    rgba(17, 21, 27, 0.72);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.08);
+
+  color: #929aa7;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.02);
+
+  transition:
+    color 0.22s ease,
+    border-color 0.22s ease,
+    background 0.22s ease,
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.result-filter:hover {
+  color: #ffffff;
+
+  border-color:
+    rgba(111, 124, 255, 0.42);
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+.result-filter.active {
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6f7cff,
+      #7d68f5
+    );
+
+  border-color:
+    rgba(150, 158, 255, 0.70);
+
+  box-shadow:
+    0 8px 25px rgba(111, 124, 255, 0.22),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+}
+
+.result-filter:active {
+  transform: translateY(0) scale(0.97);
+}
     
   </style>
 </head>
