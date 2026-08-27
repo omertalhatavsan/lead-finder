@@ -1572,6 +1572,147 @@ h1 span {
   }
 
 }
+
+/* =========================
+   RESULT OPPORTUNITY SUMMARY
+========================= */
+
+.result-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 14px;
+
+  margin:
+    8px 0 22px;
+}
+
+.result-stat {
+  position: relative;
+  overflow: hidden;
+
+  padding: 16px 17px;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20, 24, 32, 0.82),
+      rgba(13, 16, 22, 0.88)
+    );
+
+  border:
+    1px solid rgba(255,255,255,0.065);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.16),
+    inset 0 1px 0 rgba(255,255,255,0.02);
+}
+
+.result-stat::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  width: 3px;
+
+  background:
+    var(--stat-color, #6f7cff);
+}
+
+.result-stat-label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 1.25px;
+
+  text-transform: uppercase;
+
+  color: #707987;
+}
+
+.result-stat-value {
+  font-size: 23px;
+  font-weight: 850;
+
+  letter-spacing: -0.8px;
+
+  color: #f5f7fa;
+}
+
+.result-stat-sub {
+  display: block;
+
+  margin-top: 3px;
+
+  font-size: 12px;
+
+  color: #848d9a;
+}
+
+
+/* Toplam işletme */
+.result-stat.total {
+  --stat-color: #7480ff;
+}
+
+
+/* Sitesiz işletme */
+.result-stat.no-site {
+  --stat-color: #ff777f;
+}
+
+.result-stat.no-site .result-stat-value {
+  color: #ff969c;
+}
+
+
+/* Aranabilir lead */
+.result-stat.callable {
+  --stat-color: #69d697;
+}
+
+.result-stat.callable .result-stat-value {
+  color: #83e4a9;
+}
+
+
+/* Hover */
+.result-stat {
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.result-stat:hover {
+  transform: translateY(-3px);
+
+  border-color:
+    rgba(111,124,255,0.18);
+
+  box-shadow:
+    0 14px 34px rgba(0,0,0,0.22);
+}
+
+
+/* Mobil */
+@media (max-width: 700px) {
+
+  .result-summary {
+    grid-template-columns: 1fr;
+  }
+
+}
     
   </style>
 </head>
@@ -2267,18 +2408,62 @@ let html = `
   <p class="eyebrow reveal">SONUÇLAR</p>
 
   <h2>
-    ${results.length} işletme bulundu
+    Potansiyel işletmeler
   </h2>
 
-  <p style="
-    color:#ff8b8b;
-    font-size:15px;
-    font-weight:700;
-    margin-top:-8px;
-    margin-bottom:18px;
-  ">
-    🔥 ${noWebsiteCount} işletmenin web sitesi bulunamadı
-  </p>
+  <div class="result-summary">
+
+    <div class="result-stat total">
+
+      <span class="result-stat-label">
+        Toplam sonuç
+      </span>
+
+      <strong class="result-stat-value">
+        ${results.length}
+      </strong>
+
+      <span class="result-stat-sub">
+        işletme bulundu
+      </span>
+
+    </div>
+
+
+    <div class="result-stat no-site">
+
+      <span class="result-stat-label">
+        Web sitesi yok
+      </span>
+
+      <strong class="result-stat-value">
+        ${noWebsiteCount}
+      </strong>
+
+      <span class="result-stat-sub">
+        dijital fırsat
+      </span>
+
+    </div>
+
+
+    <div class="result-stat callable">
+
+      <span class="result-stat-label">
+        Aranabilir lead
+      </span>
+
+      <strong class="result-stat-value">
+        ${callableLeadCount}
+      </strong>
+
+      <span class="result-stat-sub">
+        telefon bilgisi mevcut
+      </span>
+
+    </div>
+
+  </div>
 
   <div class="result-filters">
     <button
