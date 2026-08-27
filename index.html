@@ -401,6 +401,48 @@ h1,
     opacity: 1 !important;
   }
 }
+
+/* =========================
+   MOUSE SPOTLIGHT
+========================= */
+
+.search-panel,
+.business-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.search-panel::before,
+.business-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      220px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(111, 124, 255, 0.16),
+      transparent 70%
+    );
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity 0.25s ease;
+
+  z-index: 0;
+}
+
+.search-panel:hover::before,
+.business-card:hover::before {
+  opacity: 1;
+}
+
+.search-panel > *,
+.business-card > * {
+  position: relative;
+  z-index: 1;
+}
     
   </style>
 </head>
@@ -696,6 +738,46 @@ window.addEventListener("scroll", () => {
 
 
 updateHeroDepth();
+
+/* =========================
+   MOUSE SPOTLIGHT
+========================= */
+
+function attachSpotlight(element) {
+
+  if (!element) {
+    return;
+  }
+
+  element.addEventListener("mousemove", event => {
+
+    const rect =
+      element.getBoundingClientRect();
+
+    const x =
+      event.clientX - rect.left;
+
+    const y =
+      event.clientY - rect.top;
+
+    element.style.setProperty(
+      "--mouse-x",
+      `${x}px`
+    );
+
+    element.style.setProperty(
+      "--mouse-y",
+      `${y}px`
+    );
+
+  });
+
+}
+
+attachSpotlight(
+  document.querySelector(".search-panel")
+);
+  
 async function verifyWebsiteFromEmail(email) {
 
   if (!email) {
@@ -1219,7 +1301,10 @@ ${business.websiteStatus === "probable" && business.probableWebsite ? `
     previewSection.innerHTML = html;
     const filterButtons = previewSection.querySelectorAll(".result-filter");
 const businessCards = previewSection.querySelectorAll(".business-card");
-
+businessCards.forEach(card => {
+  attachSpotlight(card);
+});
+    
 filterButtons.forEach(button => {
 
   button.addEventListener("click", () => {
