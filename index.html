@@ -1373,6 +1373,205 @@ h1 span {
   }
 
 }
+
+/* =========================
+   PREMIUM SEARCH MODULE
+========================= */
+
+/* Arama panelinin genel yerleşimi */
+.search-panel {
+  position: relative;
+
+  padding: 28px;
+
+  gap: 18px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(19, 23, 31, 0.82),
+      rgba(13, 16, 22, 0.74)
+    );
+
+  border:
+    1px solid rgba(126, 137, 255, 0.16);
+
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.30),
+    inset 0 1px 0 rgba(255,255,255,0.025),
+    0 0 45px rgba(111,124,255,0.045);
+}
+
+
+/* Panelin üstündeki ince ışık çizgisi */
+.search-panel::after {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 8%;
+
+  width: 38%;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(139, 148, 255, 0.55),
+      transparent
+    );
+
+  opacity: 0.65;
+
+  pointer-events: none;
+}
+
+
+/* Alan başlıkları */
+.search-panel .field label {
+  margin-left: 2px;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 1.15px;
+
+  text-transform: uppercase;
+
+  color: #7e8795;
+}
+
+
+/* Select kutularını biraz daha premium yap */
+.search-panel select {
+  min-height: 52px;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20, 24, 32, 0.94),
+      rgba(12, 15, 21, 0.96)
+    );
+
+  border:
+    1px solid rgba(255,255,255,0.075);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.025),
+    0 8px 22px rgba(0,0,0,0.12);
+
+  font-size: 14px;
+
+  color: #e8ebf1;
+}
+
+
+/* Hover */
+.search-panel .field:hover select {
+  border-color:
+    rgba(111,124,255,0.32);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(23, 27, 37, 0.97),
+      rgba(13, 16, 23, 0.97)
+    );
+}
+
+
+/* Focus */
+.search-panel select:focus {
+  border-color:
+    rgba(124, 135, 255, 0.72);
+
+  box-shadow:
+    0 0 0 3px rgba(111,124,255,0.08),
+    0 10px 30px rgba(0,0,0,0.20),
+    inset 0 1px 0 rgba(255,255,255,0.035);
+}
+
+
+/* Select oku biraz daha temiz */
+.search-panel .field::after {
+  right: 17px;
+  bottom: 17px;
+
+  font-size: 17px;
+
+  color: #747fff;
+}
+
+
+/* Ana arama butonu */
+.search-button {
+  min-height: 52px;
+
+  padding-left: 26px;
+  padding-right: 26px;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #717eff,
+      #765ff0
+    );
+
+  border:
+    1px solid rgba(164,170,255,0.22);
+
+  font-size: 14px;
+  font-weight: 800;
+
+  letter-spacing: -0.1px;
+
+  box-shadow:
+    0 10px 28px rgba(91, 103, 238, 0.20),
+    inset 0 1px 0 rgba(255,255,255,0.16);
+
+  text-shadow:
+    0 1px 2px rgba(0,0,0,0.18);
+}
+
+
+/* Buton hover */
+.search-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  filter: brightness(1.07);
+
+  box-shadow:
+    0 14px 34px rgba(91,103,238,0.30),
+    0 0 30px rgba(111,124,255,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.18);
+}
+
+
+/* Panelin mobil düzeni */
+@media (max-width: 760px) {
+
+  .search-panel {
+    padding: 20px;
+
+    gap: 16px;
+
+    border-radius: 17px;
+  }
+
+  .search-panel select,
+  .search-button {
+    min-height: 50px;
+  }
+
+}
     
   </style>
 </head>
