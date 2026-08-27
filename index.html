@@ -510,6 +510,31 @@ h1,
 .business-card button:active {
   transform: translateY(0) scale(0.97);
 }
+
+/* =========================
+   BUSINESS CARD STAGGER
+========================= */
+
+.business-card {
+  opacity: 0;
+  transform: translateY(22px) scale(0.985);
+}
+
+.business-card.card-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(.2,.8,.2,1),
+    box-shadow 0.28s ease,
+    filter 0.28s ease;
+}
+
+/* Hover efekti görünür kartlarda çalışsın */
+.business-card.card-visible:hover {
+  transform: translateY(-6px) scale(1);
+}
     
   </style>
 </head>
@@ -1367,9 +1392,17 @@ ${business.websiteStatus === "probable" && business.probableWebsite ? `
 
     previewSection.innerHTML = html;
     const filterButtons = previewSection.querySelectorAll(".result-filter");
-const businessCards = previewSection.querySelectorAll(".business-card");
-businessCards.forEach(card => {
+const businessCards =
+  previewSection.querySelectorAll(".business-card");
+
+businessCards.forEach((card, index) => {
+
   attachSpotlight(card);
+
+  setTimeout(() => {
+    card.classList.add("card-visible");
+  }, index * 70);
+
 });
     
 filterButtons.forEach(button => {
