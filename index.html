@@ -2154,6 +2154,93 @@ h1 span {
   box-shadow:
     0 0 10px rgba(111,124,255,0.28);
 }
+
+/* =========================
+   RESULT SORT CONTROL
+========================= */
+
+.result-sort-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 14px;
+
+  margin:
+    -8px 0 20px;
+
+  padding:
+    11px 13px;
+
+  border-radius: 12px;
+
+  background:
+    rgba(15, 19, 26, 0.66);
+
+  border:
+    1px solid rgba(255,255,255,0.055);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.result-sort-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  color: #737d8a;
+}
+
+.result-sort-info::before {
+  content: "↕";
+
+  color: #7984ff;
+
+  font-size: 14px;
+}
+
+.result-sort {
+  width: auto;
+  min-width: 185px;
+
+  padding:
+    9px 36px 9px 12px;
+
+  border-radius: 9px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  background:
+    rgba(20, 24, 32, 0.94);
+
+  border:
+    1px solid rgba(111,124,255,0.14);
+
+  color: #dfe3ea;
+}
+
+.result-sort:hover {
+  border-color:
+    rgba(111,124,255,0.35);
+}
+
+@media (max-width: 600px) {
+
+  .result-sort-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .result-sort {
+    width: 100%;
+  }
+
+}
     
   </style>
 </head>
@@ -2973,7 +3060,33 @@ let html = `
   ⚡ Yüksek Fırsatlar
 </button>
 
+</div>
+
+
+<div class="result-sort-bar">
+
+  <div class="result-sort-info">
+    Öncelik sırası
   </div>
+
+  <select
+    id="resultSort"
+    class="result-sort"
+  >
+    <option value="score">
+      Lead Score — yüksekten düşüğe
+    </option>
+
+    <option value="name">
+      İsim — A'dan Z'ye
+    </option>
+
+    <option value="no-website">
+      Web sitesi olmayanlar önce
+    </option>
+  </select>
+
+</div>
 `;
 
     if (results.length === 0) {
@@ -3214,6 +3327,8 @@ data-lead-score="${leadScore}"
     const filterButtons = previewSection.querySelectorAll(".result-filter");
 const businessCards =
   previewSection.querySelectorAll(".business-card");
+      const resultSort =
+  previewSection.querySelector("#resultSort");
 
 businessCards.forEach((card, index) => {
 
@@ -3224,6 +3339,99 @@ businessCards.forEach((card, index) => {
   }, index * 70);
 
 });
+
+if (resultSort) {
+
+  resultSort.addEventListener("change", () => {
+
+    const cards =
+      Array.from(businessCards);
+
+    const sortType =
+      resultSort.value;
+
+
+    cards.sort((a, b) => {
+
+      /* LEAD SCORE */
+      if (sortType === "score") {
+
+        return (
+          Number(b.dataset.leadScore || 0) -
+          Number(a.dataset.leadScore || 0)
+        );
+
+      }
+
+
+      /* İSİM A-Z */
+      if (sortType === "name") {
+
+        const nameA =
+          a
+            .querySelector(".business-title")
+            ?.textContent
+            .trim() || "";
+
+        const nameB =
+          b
+            .querySelector(".business-title")
+            ?.textContent
+            .trim() || "";
+
+        return nameA.localeCompare(
+          nameB,
+          "tr"
+        );
+
+      }
+
+
+      /* SİTESİZ ÖNCE */
+      if (sortType === "no-website") {
+
+        const aNoWebsite =
+          a.dataset.hasWebsite === "no"
+            ? 1
+            : 0;
+
+        const bNoWebsite =
+          b.dataset.hasWebsite === "no"
+            ? 1
+            : 0;
+
+
+        if (aNoWebsite !== bNoWebsite) {
+
+          return (
+            bNoWebsite -
+            aNoWebsite
+          );
+
+        }
+
+
+        /* İkisi de aynıysa Lead Score yüksek olan önce */
+        return (
+          Number(b.dataset.leadScore || 0) -
+          Number(a.dataset.leadScore || 0)
+        );
+
+      }
+
+
+      return 0;
+
+    });
+
+
+    cards.forEach(card => {
+      previewSection.appendChild(card);
+    });
+
+  });
+
+}    
     
 filterButtons.forEach(button => {
 
