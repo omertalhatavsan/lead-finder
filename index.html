@@ -633,11 +633,43 @@ h1,
   }
 
 }
+
+/* =========================
+   SCROLL PROGRESS BAR
+========================= */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  height: 3px;
+  width: 0%;
+
+  background:
+    linear-gradient(
+      90deg,
+      #6f7cff,
+      #9b7cff
+    );
+
+  z-index: 2000;
+
+  box-shadow:
+    0 0 14px rgba(111, 124, 255, 0.65);
+
+  transition: width 0.08s linear;
+
+  pointer-events: none;
+}
     
   </style>
 </head>
 
 <body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+  
 <div class="bg-glow one"></div>
 <div class="bg-glow two"></div>
   
@@ -815,7 +847,43 @@ revealElements.forEach(element => {
   revealObserver.observe(element);
 });
 
+/* =========================
+   SCROLL PROGRESS
+========================= */
 
+const scrollProgress =
+  document.getElementById("scrollProgress");
+
+function updateScrollProgress() {
+
+  const scrollTop =
+    window.scrollY;
+
+  const documentHeight =
+    document.documentElement.scrollHeight -
+    window.innerHeight;
+
+  const progress =
+    documentHeight > 0
+      ? (scrollTop / documentHeight) * 100
+      : 0;
+
+  scrollProgress.style.width =
+    `${Math.min(progress, 100)}%`;
+
+}
+
+window.addEventListener(
+  "scroll",
+  updateScrollProgress
+);
+
+window.addEventListener(
+  "resize",
+  updateScrollProgress
+);
+
+updateScrollProgress();
 const glowOne = document.querySelector(".bg-glow.one");
 const glowTwo = document.querySelector(".bg-glow.two");
 
