@@ -2362,6 +2362,87 @@ h1 span {
   box-shadow:
     0 7px 20px rgba(111,124,255,0.10);
 }
+
+/* =========================
+   MANUAL WEBSITE VERIFICATION
+========================= */
+
+.business-action.manual-no-site {
+  background:
+    rgba(78, 199, 124, 0.065);
+
+  color: #8ce0aa;
+
+  border-color:
+    rgba(78,199,124,0.16);
+}
+
+.business-action.manual-no-site:hover {
+  background:
+    rgba(78,199,124,0.11);
+
+  border-color:
+    rgba(78,199,124,0.30);
+}
+
+
+.business-action.manual-has-site {
+  background:
+    rgba(255, 110, 120, 0.055);
+
+  color: #ff9aa1;
+
+  border-color:
+    rgba(255,110,120,0.14);
+}
+
+.business-action.manual-has-site:hover {
+  background:
+    rgba(255,110,120,0.10);
+
+  border-color:
+    rgba(255,110,120,0.28);
+}
+
+
+.manual-verification-status {
+  display: none;
+
+  margin-bottom: 12px;
+
+  padding: 9px 11px;
+
+  border-radius: 9px;
+
+  font-size: 11px;
+  font-weight: 750;
+}
+
+
+.manual-verification-status.no-site {
+  display: block;
+
+  color: #86dda6;
+
+  background:
+    rgba(74, 198, 119, 0.055);
+
+  border:
+    1px solid rgba(74,198,119,0.13);
+}
+
+
+.manual-verification-status.has-site {
+  display: block;
+
+  color: #aeb5c0;
+
+  background:
+    rgba(255,255,255,0.03);
+
+  border:
+    1px solid rgba(255,255,255,0.07);
+}
     
   </style>
 </head>
@@ -2974,6 +3055,169 @@ businesses = verifiedBusinesses;
 
   let businesses = [];
 let leadList = JSON.parse(localStorage.getItem("leadList")) || [];
+  let manualWebsiteChecks =
+  JSON.parse(
+    localStorage.getItem("manualWebsiteChecks")
+  ) || {};
+  function getBusinessKey(name, district, category) {
+
+  return [
+    name,
+    district,
+    category
+  ]
+    .map(value =>
+      String(value || "")
+        .toLocaleLowerCase("tr")
+        .trim()
+    )
+    .join("|");
+}
+
+
+function applyManualWebsiteChecks() {
+
+  businesses.forEach(business => {
+
+    const key =
+      getBusinessKey(
+        business.name,
+        business.district,
+        business.category
+      );
+
+    const saved =
+      manualWebsiteChecks[key];
+
+    if (!saved) {
+      return;
+    }
+
+
+    if (saved.status === "no_site") {
+
+      business.websiteStatus = "not_found";
+
+      business.manualWebsiteVerification =
+        "no_site";
+
+    }
+
+
+    if (saved.status === "has_site") {
+
+      business.websiteStatus = "confirmed_manual";
+
+      business.manualWebsiteVerification =
+        "has_site";
+
+    }
+
+  });
+
+}
+  function saveManualWebsiteCheck(
+  encodedName,
+  encodedDistrict,
+  encodedCategory,
+  status,
+  button
+) {
+
+  const name =
+    decodeURIComponent(encodedName);
+
+  const district =
+    decodeURIComponent(encodedDistrict);
+
+  const category =
+    decodeURIComponent(encodedCategory);
+
+
+  const key =
+    getBusinessKey(
+      name,
+      district,
+      category
+    );
+
+
+  manualWebsiteChecks[key] = {
+    status,
+    checkedAt:
+      new Date().toISOString()
+  };
+
+
+  localStorage.setItem(
+    "manualWebsiteChecks",
+    JSON.stringify(manualWebsiteChecks)
+  );
+
+
+  const business =
+    businesses.find(item =>
+      getBusinessKey(
+        item.name,
+        item.district,
+        item.category
+      ) === key
+    );
+
+
+  if (business) {
+
+    if (status === "no_site") {
+      business.websiteStatus = "not_found";
+      business.manualWebsiteVerification =
+        "no_site";
+    }
+
+    if (status === "has_site") {
+      business.websiteStatus =
+        "confirmed_manual";
+
+      business.manualWebsiteVerification =
+        "has_site";
+    }
+
+  }
+
+
+  if (button) {
+
+    const card =
+      button.closest(".business-card");
+
+    if (card) {
+
+      const manualArea =
+        card.querySelector(
+          ".manual-verification-status"
+        );
+
+      if (manualArea) {
+
+        manualArea.textContent =
+          status === "no_site"
+            ? "✓ Manuel doğrulama: Site yok"
+            : "✓ Manuel doğrulama: Site mevcut";
+
+        manualArea.className =
+          "manual-verification-status " +
+          (
+            status === "no_site"
+              ? "no-site"
+              : "has-site"
+          );
+
+      }
+
+    }
+
+  }
+
+}
   const searchButton = document.querySelector(".search-button");
   const districtSelect = document.getElementById("district");
   const categorySelect = document.getElementById("category");
@@ -3007,6 +3251,7 @@ try {
     selectedDistrict,
     selectedCategory
   );
+  applyManualWebsiteChecks();
 
 } catch (error) {
 
@@ -3544,8 +3789,70 @@ data-lead-score="${leadScore}"
 
           : ""
       }
+      ${
+  business.websiteStatus === "not_found" ||
+  business.websiteStatus === "unknown" ||
+  business.websiteStatus === "probable"
+
+    ? `
+      <button
+        type="button"
+        class="business-action manual-no-site"
+        onclick="
+          saveManualWebsiteCheck(
+            '${encodeURIComponent(business.name)}',
+            '${encodeURIComponent(business.district)}',
+            '${encodeURIComponent(business.category)}',
+            'no_site',
+            this
+          )
+        "
+      >
+        ✓ Site Yok
+      </button>
 
 
+      <button
+        type="button"
+        class="business-action manual-has-site"
+        onclick="
+          saveManualWebsiteCheck(
+            '${encodeURIComponent(business.name)}',
+            '${encodeURIComponent(business.district)}',
+            '${encodeURIComponent(business.category)}',
+            'has_site',
+            this
+          )
+        "
+      >
+        ✕ Site Var
+      </button>
+    `
+
+    : ""
+}
+
+<div class="manual-verification-status ${
+  business.manualWebsiteVerification === "no_site"
+    ? "no-site"
+
+    : business.manualWebsiteVerification === "has_site"
+      ? "has-site"
+
+      : ""
+}">
+
+  ${
+    business.manualWebsiteVerification === "no_site"
+      ? "✓ Manuel doğrulama: Site yok"
+
+      : business.manualWebsiteVerification === "has_site"
+        ? "✓ Manuel doğrulama: Site mevcut"
+
+        : ""
+  }
+
+</div>
       <button
         type="button"
         class="business-action lead"
