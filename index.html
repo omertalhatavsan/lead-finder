@@ -2844,6 +2844,40 @@ const callableLeadCount = results.filter(
     business.websiteStatus === "not_found" &&
     business.phone
 ).length;
+
+function calculateLeadScore(business) {
+
+  let score = 0;
+
+  if (business.websiteStatus === "not_found") {
+    score += 45;
+  }
+
+  if (business.phone) {
+    score += 25;
+  }
+
+  if (business.instagram) {
+    score += 15;
+  }
+
+  if (business.email) {
+    score += 10;
+  }
+
+  if (business.openingHours) {
+    score += 5;
+  }
+
+  return score;
+}
+
+
+const sortedResults = [...results].sort(
+  (a, b) =>
+    calculateLeadScore(b) -
+    calculateLeadScore(a)
+);
     
 let html = `
   <p class="eyebrow reveal">SONUÇLAR</p>
@@ -2950,28 +2984,9 @@ let html = `
         </div>
       `;
     } else {
-      results.forEach(business => {
-        let leadScore = 0;
-
-if (business.websiteStatus === "not_found") {
-  leadScore += 45;
-}
-
-if (business.phone) {
-  leadScore += 25;
-}
-
-if (business.instagram) {
-  leadScore += 15;
-}
-
-if (business.email) {
-  leadScore += 10;
-}
-
-if (business.openingHours) {
-  leadScore += 5;
-}
+      sortedResults.forEach(business => {
+      const leadScore =
+  calculateLeadScore(business);
 
 
 let opportunityLevel = "low";
