@@ -2861,6 +2861,14 @@ let html = `
   🔥 Aranabilir Leadler (${callableLeadCount})
 </button>
 
+<button
+  class="result-filter"
+  data-filter="high-opportunity"
+  type="button"
+>
+  ⚡ Yüksek Fırsatlar
+</button>
+
   </div>
 `;
 
@@ -2915,8 +2923,9 @@ html += `
         ? "no"
         : "yes"
     }"
-    data-has-phone="${business.phone ? "yes" : "no"}"
-  >
+   data-has-phone="${business.phone ? "yes" : "no"}"
+data-opportunity="${opportunityLevel}"
+>
 
     <div class="business-head">
 
@@ -3135,6 +3144,15 @@ filterButtons.forEach(button => {
     card.dataset.hasPhone === "yes"
       ? ""
       : "none";
+}
+
+      if (filter === "high-opportunity") {
+
+  card.style.display =
+    card.dataset.opportunity === "high"
+      ? ""
+      : "none";
+
 }
 
     });
