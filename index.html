@@ -662,6 +662,51 @@ h1,
 
   pointer-events: none;
 }
+
+/* =========================
+   AMBIENT HERO GRID
+========================= */
+
+.hero-grid {
+  position: fixed;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: -2;
+
+  opacity: 0.12;
+
+  background-image:
+    linear-gradient(
+      rgba(111, 124, 255, 0.10) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(111, 124, 255, 0.10) 1px,
+      transparent 1px
+    );
+
+  background-size: 48px 48px;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,1) 0%,
+      rgba(0,0,0,0.75) 35%,
+      transparent 75%
+    );
+
+  -webkit-mask-image:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,1) 0%,
+      rgba(0,0,0,0.75) 35%,
+      transparent 75%
+    );
+
+  will-change: transform;
+}
     
   </style>
 </head>
@@ -669,6 +714,8 @@ h1,
 <body>
 
 <div class="scroll-progress" id="scrollProgress"></div>
+
+<div class="hero-grid" id="heroGrid"></div>
   
 <div class="bg-glow one"></div>
 <div class="bg-glow two"></div>
@@ -884,6 +931,10 @@ window.addEventListener(
 );
 
 updateScrollProgress();
+
+const heroGrid =
+  document.getElementById("heroGrid");
+  
 const glowOne = document.querySelector(".bg-glow.one");
 const glowTwo = document.querySelector(".bg-glow.two");
 
@@ -899,6 +950,11 @@ window.addEventListener("scroll", () => {
   if (glowTwo) {
     glowTwo.style.transform =
       `translateY(${-scrollY * 0.08}px)`;
+  }
+
+  if (heroGrid) {
+    heroGrid.style.transform =
+      `translateY(${scrollY * 0.06}px)`;
   }
 
 });
