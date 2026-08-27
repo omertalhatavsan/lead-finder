@@ -2337,6 +2337,31 @@ h1 span {
 
   color: #717cff;
 }
+
+/* =========================
+   MANUAL GOOGLE VERIFY
+========================= */
+
+.business-action.verify {
+  background:
+    rgba(111, 124, 255, 0.065);
+
+  color: #aeb5ff;
+
+  border-color:
+    rgba(111, 124, 255, 0.16);
+}
+
+.business-action.verify:hover {
+  border-color:
+    rgba(126, 137, 255, 0.36);
+
+  background:
+    rgba(111, 124, 255, 0.11);
+
+  box-shadow:
+    0 7px 20px rgba(111,124,255,0.10);
+}
     
   </style>
 </head>
@@ -3237,6 +3262,12 @@ if (leadScore >= 75) {
         business.name + " " + business.district
       )}`;
 
+        const googleVerifyLink =
+  "https://www.google.com/search?q=" +
+  encodeURIComponent(
+    `"${business.name}" ${business.district} İstanbul resmi web sitesi`
+  );
+
 html += `
   <div
     class="business-card"
@@ -3478,6 +3509,24 @@ data-lead-score="${leadScore}"
       >
         📍 Haritada Aç
       </a>
+
+      ${
+  business.websiteStatus === "not_found" ||
+  business.websiteStatus === "unknown" ||
+  business.websiteStatus === "probable"
+
+    ? `
+      <a
+        href="${googleVerifyLink}"
+        target="_blank"
+        class="business-action verify"
+      >
+        🔎 Google'da Doğrula
+      </a>
+    `
+
+    : ""
+}
 
 
       ${
