@@ -381,6 +381,27 @@ header.scrolled .logo {
   transform: translateY(-2px);
   border-color: rgba(111, 124, 255, 0.45);
 }
+
+/* =========================
+   HERO SCROLL DEPTH
+========================= */
+
+h1,
+.subtitle,
+.search-panel {
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  h1,
+  .subtitle,
+  .search-panel {
+    translate: none !important;
+    scale: 1 !important;
+    opacity: 1 !important;
+  }
+}
+    
   </style>
 </head>
 
@@ -604,7 +625,77 @@ window.addEventListener(
 );
 
 updateHeaderOnScroll();  
-  
+  /* =========================
+   HERO SCROLL DEPTH
+========================= */
+
+const heroTitle = document.querySelector("h1");
+const heroSubtitle = document.querySelector(".subtitle");
+const heroSearchPanel = document.querySelector(".search-panel");
+
+let heroScrollTicking = false;
+
+function updateHeroDepth() {
+
+  const scrollY = window.scrollY;
+
+  // Efekt ilk yaklaşık 450px boyunca çalışsın.
+  const progress = Math.min(scrollY / 450, 1);
+
+
+  if (heroTitle) {
+
+    heroTitle.style.translate =
+      `0 ${-44 * progress}px`;
+
+    heroTitle.style.scale =
+      `${1 - (0.06 * progress)}`;
+
+    heroTitle.style.opacity =
+      `${1 - (0.28 * progress)}`;
+
+  }
+
+
+  if (heroSubtitle) {
+
+    heroSubtitle.style.translate =
+      `0 ${-24 * progress}px`;
+
+    heroSubtitle.style.opacity =
+      `${1 - (0.22 * progress)}`;
+
+  }
+
+
+  if (heroSearchPanel) {
+
+    heroSearchPanel.style.translate =
+      `0 ${-10 * progress}px`;
+
+  }
+
+
+  heroScrollTicking = false;
+}
+
+
+window.addEventListener("scroll", () => {
+
+  if (!heroScrollTicking) {
+
+    requestAnimationFrame(
+      updateHeroDepth
+    );
+
+    heroScrollTicking = true;
+
+  }
+
+});
+
+
+updateHeroDepth();
 async function verifyWebsiteFromEmail(email) {
 
   if (!email) {
