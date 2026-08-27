@@ -868,6 +868,29 @@ select:focus {
 .result-filter:active {
   transform: translateY(0) scale(0.97);
 }
+
+/* =========================
+   DARK SELECT DROPDOWN FIX
+========================= */
+
+select {
+  color-scheme: dark;
+}
+
+select option {
+  background: #0b0e13;
+  color: #f5f7fa;
+  font-weight: 600;
+}
+
+select option:checked {
+  background: #6f7cff;
+  color: #ffffff;
+}
+
+select option:disabled {
+  color: #69717d;
+}
     
   </style>
 </head>
