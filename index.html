@@ -2241,6 +2241,102 @@ h1 span {
   }
 
 }
+
+/* =========================
+   LEAD SCORE BREAKDOWN
+========================= */
+
+.lead-score {
+  position: relative;
+  cursor: help;
+}
+
+.lead-score-details {
+  position: absolute;
+
+  left: 0;
+  top: calc(100% + 10px);
+
+  width: 215px;
+
+  padding: 12px;
+
+  border-radius: 11px;
+
+  background:
+    rgba(11, 14, 20, 0.97);
+
+  border:
+    1px solid rgba(111,124,255,0.16);
+
+  box-shadow:
+    0 16px 38px rgba(0,0,0,0.36);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transform: translateY(-4px);
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s ease;
+
+  z-index: 50;
+}
+
+.lead-score:hover .lead-score-details {
+  opacity: 1;
+  visibility: visible;
+
+  transform: translateY(0);
+}
+
+.lead-score-detail {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  padding: 6px 0;
+
+  font-size: 11px;
+
+  color: #8993a0;
+}
+
+.lead-score-detail + .lead-score-detail {
+  border-top:
+    1px solid rgba(255,255,255,0.045);
+}
+
+.lead-score-detail strong {
+  color: #dfe4eb;
+
+  font-size: 11px;
+}
+
+.lead-score-detail.inactive {
+  opacity: 0.38;
+}
+
+.lead-score-details-title {
+  margin-bottom: 5px;
+
+  font-size: 9px;
+  font-weight: 850;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+
+  color: #717cff;
+}
     
   </style>
 </head>
@@ -3168,6 +3264,71 @@ data-lead-score="${leadScore}"
       style="width:${leadScore}%"
     ></span>
   </span>
+
+
+  <div class="lead-score-details">
+
+    <div class="lead-score-details-title">
+      Puan dağılımı
+    </div>
+
+
+    <div class="lead-score-detail ${
+      business.websiteStatus === "not_found"
+        ? ""
+        : "inactive"
+    }">
+      <span>Web sitesi yok</span>
+      <strong>
+        ${
+          business.websiteStatus === "not_found"
+            ? "+45"
+            : "+0"
+        }
+      </strong>
+    </div>
+
+
+    <div class="lead-score-detail ${
+      business.phone ? "" : "inactive"
+    }">
+      <span>Telefon</span>
+      <strong>
+        ${business.phone ? "+25" : "+0"}
+      </strong>
+    </div>
+
+
+    <div class="lead-score-detail ${
+      business.instagram ? "" : "inactive"
+    }">
+      <span>Instagram</span>
+      <strong>
+        ${business.instagram ? "+15" : "+0"}
+      </strong>
+    </div>
+
+
+    <div class="lead-score-detail ${
+      business.email ? "" : "inactive"
+    }">
+      <span>E-posta</span>
+      <strong>
+        ${business.email ? "+10" : "+0"}
+      </strong>
+    </div>
+
+
+    <div class="lead-score-detail ${
+      business.openingHours ? "" : "inactive"
+    }">
+      <span>Çalışma saatleri</span>
+      <strong>
+        ${business.openingHours ? "+5" : "+0"}
+      </strong>
+    </div>
+
+  </div>
 
 </div>
 </div>
