@@ -3028,20 +3028,35 @@ const callableLeadCount = results.filter(
     business.phone
 ).length;
 
-function calculateLeadScore(business) {
-
-  let score = 0;
+function getWebsiteScore(business) {
 
   if (business.websiteStatus === "not_found") {
-    score += 45;
+    return 55;
   }
 
+  if (business.websiteStatus === "unknown") {
+    return 30;
+  }
+
+  if (business.websiteStatus === "probable") {
+    return 15;
+  }
+
+  return 0;
+}
+
+
+function calculateLeadScore(business) {
+
+  let score =
+    getWebsiteScore(business);
+
   if (business.phone) {
-    score += 25;
+    score += 20;
   }
 
   if (business.instagram) {
-    score += 15;
+    score += 10;
   }
 
   if (business.email) {
@@ -3052,7 +3067,7 @@ function calculateLeadScore(business) {
     score += 5;
   }
 
-  return score;
+  return Math.min(score, 100);
 }
 
 
@@ -3197,16 +3212,19 @@ let html = `
       const leadScore =
   calculateLeadScore(business);
 
+        const websiteScore =
+  getWebsiteScore(business);
+
 
 let opportunityLevel = "low";
 let opportunityLabel = "Düşük fırsat";
 
-if (leadScore >= 70) {
+if (leadScore >= 75) {
 
   opportunityLevel = "high";
   opportunityLabel = "Yüksek fırsat";
 
-} else if (leadScore >= 40) {
+} else if (leadScore >= 45) {
 
   opportunityLevel = "medium";
   opportunityLabel = "Orta fırsat";
@@ -3273,20 +3291,30 @@ data-lead-score="${leadScore}"
     </div>
 
 
-    <div class="lead-score-detail ${
+  <div class="lead-score-detail ${
+  websiteScore > 0
+    ? ""
+    : "inactive"
+}">
+  <span>
+    ${
       business.websiteStatus === "not_found"
-        ? ""
-        : "inactive"
-    }">
-      <span>Web sitesi yok</span>
-      <strong>
-        ${
-          business.websiteStatus === "not_found"
-            ? "+45"
-            : "+0"
-        }
-      </strong>
-    </div>
+        ? "Web sitesi yok"
+
+        : business.websiteStatus === "unknown"
+          ? "Web sitesi belirsiz"
+
+          : business.websiteStatus === "probable"
+            ? "Muhtemel web sitesi"
+
+            : "Web sitesi mevcut"
+    }
+  </span>
+
+  <strong>
+    +${websiteScore}
+  </strong>
+</div>
 
 
     <div class="lead-score-detail ${
@@ -3294,7 +3322,7 @@ data-lead-score="${leadScore}"
     }">
       <span>Telefon</span>
       <strong>
-        ${business.phone ? "+25" : "+0"}
+        ${business.phone ? "+20" : "+0"}
       </strong>
     </div>
 
@@ -3304,7 +3332,7 @@ data-lead-score="${leadScore}"
     }">
       <span>Instagram</span>
       <strong>
-        ${business.instagram ? "+15" : "+0"}
+        ${business.instagram ? "+10" : "+0"}
       </strong>
     </div>
 
