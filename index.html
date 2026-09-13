@@ -3225,6 +3225,159 @@ header.scrolled {
   }
 
 }
+
+/* =========================
+   MODERN ACTION ICON SYSTEM
+========================= */
+
+.business-action {
+  gap: 7px;
+
+  min-height: 40px;
+
+  padding:
+    0 14px;
+
+  border-radius: 10px;
+
+  font-size: 11px;
+  font-weight: 750;
+
+  letter-spacing: -0.05px;
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
+}
+
+
+.business-action svg {
+  width: 15px;
+  height: 15px;
+
+  flex-shrink: 0;
+
+  fill: none;
+
+  stroke: currentColor;
+
+  stroke-width: 1.7;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  opacity: 0.88;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+
+.business-action:hover svg {
+  opacity: 1;
+
+  transform:
+    scale(1.06);
+}
+
+
+.business-action.map {
+  background:
+    rgba(255,255,255,0.025);
+
+  border-color:
+    rgba(255,255,255,0.07);
+
+  color: #aab2bf;
+}
+
+
+.business-action.map:hover {
+  color: #e0e4eb;
+
+  background:
+    rgba(255,255,255,0.045);
+
+  border-color:
+    rgba(255,255,255,0.11);
+}
+
+
+.business-action.verify {
+  background:
+    rgba(111,124,255,0.045);
+
+  border-color:
+    rgba(111,124,255,0.11);
+
+  color: #98a2ff;
+}
+
+
+.business-action.verify:hover {
+  background:
+    rgba(111,124,255,0.08);
+
+  border-color:
+    rgba(124,136,255,0.20);
+
+  color: #bac0ff;
+}
+
+
+.business-action.website {
+  background:
+    rgba(73,190,122,0.045);
+
+  border-color:
+    rgba(73,190,122,0.10);
+
+  color: #85d5a4;
+}
+
+
+.business-action.website:hover {
+  background:
+    rgba(73,190,122,0.08);
+
+  border-color:
+    rgba(73,190,122,0.18);
+
+  color: #a1e4ba;
+}
+
+
+.business-action.lead {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(113,126,255,0.96),
+      rgba(103,86,226,0.96)
+    );
+
+  border-color:
+    rgba(151,159,255,0.20);
+
+  box-shadow:
+    0 8px 22px rgba(84,95,211,0.17);
+
+  color: #ffffff;
+}
+
+
+.business-action.lead:hover {
+  box-shadow:
+    0 11px 28px rgba(84,95,211,0.24);
+
+  filter: brightness(1.04);
+}
     
   </style>
 </head>
@@ -4627,13 +4780,23 @@ data-lead-score="${leadScore}"
 
     <div class="business-actions">
 
-      <a
-        href="${mapsLink}"
-        target="_blank"
-        class="business-action map"
-      >
-        📍 Haritada Aç
-      </a>
+    <a
+  href="${mapsLink}"
+  target="_blank"
+  class="business-action map"
+>
+  <svg
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path
+      d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z"
+    />
+    <circle cx="12" cy="10" r="2.2" />
+  </svg>
+
+  <span>Haritada Aç</span>
+</a>
 
       ${
   business.websiteStatus === "not_found" ||
@@ -4642,12 +4805,20 @@ data-lead-score="${leadScore}"
 
     ? `
       <a
-        href="${googleVerifyLink}"
-        target="_blank"
-        class="business-action verify"
-      >
-        🔎 Google'da Doğrula
-      </a>
+  href="${googleVerifyLink}"
+  target="_blank"
+  class="business-action verify"
+>
+  <svg
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <circle cx="11" cy="11" r="6.5" />
+    <path d="m16 16 4 4" />
+  </svg>
+
+  <span>Google'da Doğrula</span>
+</a>
     `
 
     : ""
@@ -4659,12 +4830,22 @@ data-lead-score="${leadScore}"
 
           ? `
             <a
-              href="${business.website}"
-              target="_blank"
-              class="business-action website"
-            >
-              🌐 Siteyi Aç
-            </a>
+  href="${business.website}"
+  target="_blank"
+  class="business-action website"
+>
+  <svg
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="9" />
+    <path d="M3 12h18" />
+    <path d="M12 3c2.5 2.5 4 5.5 4 9s-1.5 6.5-4 9" />
+    <path d="M12 3c-2.5 2.5-4 5.5-4 9s1.5 6.5 4 9" />
+  </svg>
+
+  <span>Siteyi Aç</span>
+</a>
           `
 
           : ""
@@ -4734,12 +4915,20 @@ data-lead-score="${leadScore}"
 
 </div>
       <button
-        type="button"
-        class="business-action lead"
-        onclick="addToLeadList('${business.name}')"
-      >
-        + Listeye Ekle
-      </button>
+  type="button"
+  class="business-action lead"
+  onclick="addToLeadList('${business.name}')"
+>
+  <svg
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path d="M12 5v14" />
+    <path d="M5 12h14" />
+  </svg>
+
+  <span>Listeye Ekle</span>
+</button>
 
     </div>
 
