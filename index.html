@@ -2880,6 +2880,351 @@ h1 span {
   }
 
 }
+
+/* =========================
+   DASHBOARD HEADER UPGRADE
+========================= */
+
+header {
+  min-height: 76px;
+
+  padding:
+    13px 6%;
+
+  background:
+    rgba(10, 13, 18, 0.76);
+
+  border-bottom:
+    1px solid rgba(255,255,255,0.055);
+
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.015);
+}
+
+
+/* =========================
+   BRAND AREA
+========================= */
+
+.brand {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+}
+
+
+/* LF simgesi */
+
+.brand-mark {
+  position: relative;
+
+  width: 39px;
+  height: 39px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 11px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(120,132,255,0.22),
+      rgba(103,84,230,0.09)
+    );
+
+  border:
+    1px solid rgba(132,143,255,0.22);
+
+  box-shadow:
+    0 8px 25px rgba(68,78,190,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.07);
+}
+
+
+.brand-mark::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 5px;
+
+  border-radius: 7px;
+
+  border:
+    1px solid rgba(146,155,255,0.08);
+}
+
+
+.brand-mark span {
+  position: relative;
+
+  z-index: 1;
+
+  font-size: 11px;
+  font-weight: 900;
+
+  letter-spacing: -0.2px;
+
+  color: #aeb5ff;
+}
+
+
+/* Yazı grubu */
+
+.brand-copy {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.brand .logo {
+  line-height: 1;
+
+  font-size: 19px;
+
+  letter-spacing: -0.7px;
+}
+
+
+/* Eski logo status noktasını kapat */
+
+.brand .logo::after {
+  display: none;
+}
+
+
+.brand-subtitle {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 0.7px;
+
+  text-transform: uppercase;
+
+  color: #5f6976;
+}
+
+
+/* Küçük sistem aktif noktası */
+
+.brand-live-dot {
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: #72d99b;
+
+  box-shadow:
+    0 0 7px rgba(114,217,155,0.58);
+}
+
+
+/* =========================
+   LEAD LIST BUTTON
+========================= */
+
+.top-button {
+  min-height: 47px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding:
+    7px 9px 7px 11px;
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(24,29,39,0.88),
+      rgba(15,19,26,0.92)
+    );
+
+  border:
+    1px solid rgba(255,255,255,0.07);
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,0.14),
+    inset 0 1px 0 rgba(255,255,255,0.025);
+}
+
+
+/* Sol ikon */
+
+.top-button-icon {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 8px;
+
+  background:
+    rgba(111,124,255,0.08);
+
+  border:
+    1px solid rgba(111,124,255,0.12);
+
+  color: #8e98ff;
+
+  font-size: 13px;
+}
+
+
+/* Yazılar */
+
+.top-button-copy {
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  gap: 2px;
+
+  line-height: 1;
+}
+
+
+.top-button-copy strong {
+  font-size: 11px;
+  font-weight: 800;
+
+  color: #e7eaf0;
+}
+
+
+.top-button-copy small {
+  font-size: 9px;
+  font-weight: 600;
+
+  color: #68717e;
+}
+
+
+/* Sayaç */
+
+.top-button #leadCount {
+  min-width: 27px;
+  height: 27px;
+
+  margin-left: 2px;
+
+  border-radius: 8px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(111,124,255,0.17),
+      rgba(111,124,255,0.08)
+    );
+
+  border:
+    1px solid rgba(126,138,255,0.17);
+
+  color: #b5bbff;
+}
+
+
+/* Hover */
+
+.top-button:hover {
+
+  border-color:
+    rgba(117,129,255,0.24);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(29,34,46,0.94),
+      rgba(17,21,29,0.96)
+    );
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.20),
+    0 0 24px rgba(111,124,255,0.045);
+}
+
+
+.top-button:hover .top-button-icon {
+  background:
+    rgba(111,124,255,0.13);
+
+  border-color:
+    rgba(126,138,255,0.22);
+
+  color: #aab1ff;
+}
+
+
+/* Scroll durumunda */
+
+header.scrolled {
+  min-height: 65px;
+
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+  header {
+    padding-left: 4%;
+    padding-right: 4%;
+  }
+
+  .brand-subtitle {
+    display: none;
+  }
+
+  .brand-mark {
+    width: 35px;
+    height: 35px;
+  }
+
+  .brand .logo {
+    font-size: 17px;
+  }
+
+  .top-button-copy {
+    display: none;
+  }
+
+  .top-button {
+    padding: 6px;
+    gap: 6px;
+  }
+
+  .top-button-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+}
     
   </style>
 </head>
@@ -2894,15 +3239,52 @@ h1 span {
 <div class="bg-glow two"></div>
   
   <header>
-    <div class="logo">
-      Lead<span>Finder</span>
+
+  <div class="brand">
+
+    <div class="brand-mark">
+      <span>LF</span>
     </div>
 
-    <button class="top-button">
-  Potansiyel Müşteriler
-  <span id="leadCount">0</span>
-</button>
-  </header>
+    <div class="brand-copy">
+
+      <div class="logo">
+        Lead<span>Finder</span>
+      </div>
+
+      <div class="brand-subtitle">
+        <span class="brand-live-dot"></span>
+        Local Sales Intelligence
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <button class="top-button">
+
+    <span class="top-button-icon">
+      ◈
+    </span>
+
+    <span class="top-button-copy">
+
+      <strong>
+        Potansiyel Müşteriler
+      </strong>
+
+      <small>
+        Lead listesini aç
+      </small>
+
+    </span>
+
+    <span id="leadCount">0</span>
+
+  </button>
+
+</header>
 
   <main>
 
