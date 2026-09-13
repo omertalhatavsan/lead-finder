@@ -3750,6 +3750,51 @@ header.scrolled {
     0 11px 30px rgba(65,75,185,0.14),
     0 0 22px rgba(111,124,255,0.045);
 }
+
+/* =========================
+   BUSINESS RESULTS GRID
+========================= */
+
+.business-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 16px;
+
+  align-items: stretch;
+}
+
+
+/* Kartlar grid içinde tam genişlik */
+
+.business-grid .business-card {
+  width: 100%;
+
+  margin-bottom: 0 !important;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* Alt aksiyonları mümkün olduğunca aynı hizada tut */
+
+.business-grid .business-actions {
+  margin-top: auto;
+}
+
+
+/* Tablet ve küçük ekranlarda tekrar tek sütun */
+
+@media (max-width: 900px) {
+
+  .business-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
     
   </style>
 </head>
@@ -5101,8 +5146,13 @@ let html = `
           Bu seçim için henüz örnek veri yok.
         </div>
       `;
-    } else {
-      sortedResults.forEach(business => {
+   } else {
+
+  html += `
+    <div class="business-grid">
+  `;
+
+  sortedResults.forEach(business => {
       const leadScore =
   calculateLeadScore(business);
 
@@ -5523,16 +5573,26 @@ data-lead-score="${leadScore}"
 
     </div>
 
-  </div>
+   </div>
 `;
-});
-    }
+  });
 
-    previewSection.innerHTML = html;
+  html += `
+    </div>
+  `;
+
+}
+
+previewSection.innerHTML = html;
     const filterButtons = previewSection.querySelectorAll(".result-filter");
+    
 const businessCards =
   previewSection.querySelectorAll(".business-card");
-      const resultSort =
+
+const businessGrid =
+  previewSection.querySelector(".business-grid");
+
+const resultSort =
   previewSection.querySelector("#resultSort");
 
 businessCards.forEach((card, index) => {
@@ -5630,9 +5690,9 @@ if (resultSort) {
     });
 
 
-    cards.forEach(card => {
-      previewSection.appendChild(card);
-    });
+   cards.forEach(card => {
+  businessGrid.appendChild(card);
+});
 
   });
 
