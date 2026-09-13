@@ -3371,12 +3371,384 @@ header.scrolled {
   color: #ffffff;
 }
 
+/* =========================
+   LIVE RADAR STATES
+========================= */
 
+
+/* Arama yaparken radar hızlanır */
+
+.radar-searching .radar-sweep {
+  animation-duration:
+    0.72s;
+}
+
+
+.radar-searching .radar-visual {
+  border-color:
+    rgba(123,135,255,0.28);
+
+  box-shadow:
+    0 0 52px rgba(111,124,255,0.10),
+    inset 0 0 34px rgba(111,124,255,0.04);
+}
+
+
+.radar-searching .radar-center {
+  animation:
+    radarCenterPulse
+    0.9s
+    ease-in-out
+    infinite;
+}
+
+
+.radar-searching .radar-target {
+  animation-duration:
+    0.9s;
+}
+
+
+.radar-searching .empty-status {
+  color: #a2aaff;
+
+  background:
+    rgba(111,124,255,0.10);
+
+  border-color:
+    rgba(111,124,255,0.20);
+}
+
+
+@keyframes radarCenterPulse {
+
+  0%,
+  100% {
+
+    box-shadow:
+      0 0 9px rgba(125,135,255,0.55);
+
+  }
+
+  50% {
+
+    box-shadow:
+      0 0 22px rgba(125,135,255,0.95);
+
+  }
+
+}
+
+
+/* =========================
+   SUCCESS OVERLAY
+========================= */
+
+.radar-success-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 5000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 25px;
+
+  background:
+    rgba(5,7,11,0.72);
+
+  backdrop-filter:
+    blur(14px);
+
+  -webkit-backdrop-filter:
+    blur(14px);
+
+  opacity: 0;
+
+  transition:
+    opacity 0.35s ease;
+}
+
+
+.radar-success-overlay.visible {
+  opacity: 1;
+}
+
+
+.radar-success-overlay.leaving {
+  opacity: 0;
+}
+
+
+/* Ortadaki kutu */
+
+.radar-success-box {
+  width: min(
+    390px,
+    calc(100vw - 40px)
+  );
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding:
+    35px 30px 31px;
+
+  border-radius: 22px;
+
+  text-align: center;
+
+  background:
+    radial-gradient(
+      circle at 50% 15%,
+      rgba(111,124,255,0.10),
+      transparent 45%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(18,22,30,0.98),
+      rgba(10,13,18,0.98)
+    );
+
+  border:
+    1px solid rgba(127,138,255,0.16);
+
+  box-shadow:
+    0 35px 100px rgba(0,0,0,0.50),
+    0 0 70px rgba(111,124,255,0.07),
+    inset 0 1px 0 rgba(255,255,255,0.035);
+
+  transform:
+    translateY(14px)
+    scale(0.96);
+
+  transition:
+    transform
+    0.45s
+    cubic-bezier(.2,.8,.2,1);
+}
+
+
+.radar-success-overlay.visible
+.radar-success-box {
+
+  transform:
+    translateY(0)
+    scale(1);
+
+}
+
+
+/* Başarı radarını biraz büyüt */
+
+.radar-success-visual {
+  width: 165px;
+  height: 165px;
+
+  margin-bottom: 24px;
+
+  border-color:
+    rgba(102,218,148,0.19);
+
+  box-shadow:
+    0 0 50px rgba(83,204,132,0.075),
+    inset 0 0 35px rgba(111,124,255,0.035);
+}
+
+
+/* Arama bittiği için yavaşlar */
+
+.radar-success-visual
+.radar-sweep {
+
+  animation-duration:
+    3.4s;
+
+}
+
+
+/* Noktalar yeşile geçer */
+
+.radar-success-visual
+.radar-target {
+
+  background:
+    #7fe0a4;
+
+  box-shadow:
+    0 0 11px rgba(94,217,141,0.72);
+
+}
+
+
+.radar-success-visual
+.radar-center {
+
+  background:
+    #86e0aa;
+
+  box-shadow:
+    0 0 17px rgba(94,217,141,0.75);
+
+}
+
+
+/* Durum */
+
+.radar-success-status {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  margin-bottom: 9px;
+
+  font-size: 9px;
+  font-weight: 850;
+
+  letter-spacing: 1.5px;
+
+  color: #83dba5;
+}
+
+
+.radar-success-check {
+  width: 18px;
+  height: 18px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  font-size: 10px;
+
+  color: #8ce2ad;
+
+  background:
+    rgba(81,203,128,0.08);
+
+  border:
+    1px solid rgba(81,203,128,0.16);
+}
+
+
+.radar-success-title {
+  font-size: 22px;
+  font-weight: 850;
+
+  letter-spacing:
+    -0.7px;
+
+  color: #f3f5f8;
+}
+
+
+.radar-success-count {
+  margin-top: 7px;
+
+  font-size: 12px;
+
+  color: #78828f;
+}
+    
 .business-action.lead:hover {
   box-shadow:
     0 11px 28px rgba(84,95,211,0.24);
 
   filter: brightness(1.04);
+}
+
+/* =========================
+   MODERN FINDER BRAND MARK
+========================= */
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(119,131,255,0.14),
+      rgba(92,73,205,0.045)
+    );
+
+  border:
+    1px solid rgba(129,141,255,0.16);
+
+  box-shadow:
+    0 9px 28px rgba(65,75,185,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.055);
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+.brand-mark::before {
+  display: none;
+}
+
+
+.brand-mark svg {
+  width: 23px;
+  height: 23px;
+
+  fill: none;
+
+  stroke: #929cff;
+
+  stroke-width: 1.55;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  filter:
+    drop-shadow(
+      0 0 7px rgba(111,124,255,0.22)
+    );
+}
+
+
+.brand-mark .brand-mark-core {
+  fill: #aeb5ff;
+  stroke: none;
+
+  filter:
+    drop-shadow(
+      0 0 4px rgba(150,160,255,0.8)
+    );
+}
+
+
+.brand:hover .brand-mark {
+  transform:
+    translateY(-1px);
+
+  border-color:
+    rgba(135,146,255,0.28);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(119,131,255,0.19),
+      rgba(92,73,205,0.07)
+    );
+
+  box-shadow:
+    0 11px 30px rgba(65,75,185,0.14),
+    0 0 22px rgba(111,124,255,0.045);
 }
     
   </style>
@@ -3395,9 +3767,32 @@ header.scrolled {
 
   <div class="brand">
 
-    <div class="brand-mark">
-      <span>LF</span>
-    </div>
+   <div class="brand-mark">
+
+  <svg
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path d="M8 5H5v3" />
+    <path d="M16 5h3v3" />
+    <path d="M8 19H5v-3" />
+    <path d="M16 19h3v-3" />
+
+    <circle
+      cx="12"
+      cy="12"
+      r="3"
+    />
+
+    <circle
+      cx="12"
+      cy="12"
+      r="1"
+      class="brand-mark-core"
+    />
+  </svg>
+
+</div>
 
     <div class="brand-copy">
 
@@ -4260,6 +4655,181 @@ const leadCount = document.getElementById("leadCount");
 const leadPanel = document.getElementById("leadPanel");
 const closeLeadPanel = document.getElementById("closeLeadPanel");
   const leadPanelContent = document.getElementById("leadPanelContent");
+function createRadarState(
+  mode,
+  status,
+  title,
+  description
+) {
+
+  return `
+    <div class="empty-card radar-empty radar-${mode}">
+
+      <div class="radar-visual">
+
+        <div class="radar-ring ring-one"></div>
+        <div class="radar-ring ring-two"></div>
+        <div class="radar-ring ring-three"></div>
+
+        <div class="radar-cross horizontal"></div>
+        <div class="radar-cross vertical"></div>
+
+        <div class="radar-sweep"></div>
+
+        <div class="radar-center"></div>
+
+        <span class="radar-target target-one"></span>
+        <span class="radar-target target-two"></span>
+        <span class="radar-target target-three"></span>
+
+      </div>
+
+      <div class="empty-content">
+
+        <span class="empty-status">
+          ${status}
+        </span>
+
+        <strong>
+          ${title}
+        </strong>
+
+        <p>
+          ${description}
+        </p>
+
+      </div>
+
+    </div>
+  `;
+}
+
+  function showRadarSuccess(resultCount) {
+
+  return new Promise(resolve => {
+
+    const oldOverlay =
+      document.querySelector(
+        ".radar-success-overlay"
+      );
+
+    if (oldOverlay) {
+      oldOverlay.remove();
+    }
+
+
+    const overlay =
+      document.createElement("div");
+
+    overlay.className =
+      "radar-success-overlay";
+
+
+    const hasResults =
+      resultCount > 0;
+
+
+    overlay.innerHTML = `
+
+      <div class="radar-success-box">
+
+        <div class="radar-visual radar-success-visual">
+
+          <div class="radar-ring ring-one"></div>
+          <div class="radar-ring ring-two"></div>
+          <div class="radar-ring ring-three"></div>
+
+          <div class="radar-cross horizontal"></div>
+          <div class="radar-cross vertical"></div>
+
+          <div class="radar-sweep"></div>
+
+          <div class="radar-center"></div>
+
+          <span class="radar-target target-one"></span>
+          <span class="radar-target target-two"></span>
+          <span class="radar-target target-three"></span>
+
+        </div>
+
+
+        <div class="radar-success-status">
+
+          <span class="radar-success-check">
+            ${
+              hasResults
+                ? "✓"
+                : "—"
+            }
+          </span>
+
+          <span>
+            TARAMA TAMAMLANDI
+          </span>
+
+        </div>
+
+
+        <strong class="radar-success-title">
+
+          ${
+            hasResults
+              ? "İşletmeler bulundu"
+              : "Eşleşme bulunamadı"
+          }
+
+        </strong>
+
+
+        <p class="radar-success-count">
+
+          ${
+            resultCount === 1
+              ? "1 işletme bulundu"
+              : `${resultCount} işletme bulundu`
+          }
+
+        </p>
+
+      </div>
+
+    `;
+
+
+    document.body.appendChild(
+      overlay
+    );
+
+
+    requestAnimationFrame(() => {
+
+      overlay.classList.add(
+        "visible"
+      );
+
+    });
+
+
+    setTimeout(() => {
+
+      overlay.classList.add(
+        "leaving"
+      );
+
+
+      setTimeout(() => {
+
+        overlay.remove();
+
+        resolve();
+
+      }, 420);
+
+    }, 2300);
+
+  });
+
+}
   
   searchButton.addEventListener("click", async () => {
 
@@ -4277,7 +4847,24 @@ const closeLeadPanel = document.getElementById("closeLeadPanel");
  searchButton.textContent = "İşletmeler taranıyor...";
 searchButton.disabled = true;
 searchButton.classList.add("loading");
+previewSection.innerHTML = `
 
+  <p class="eyebrow">
+    SONUÇLAR
+  </p>
+
+  <h2>
+    Potansiyel işletmeler
+  </h2>
+
+  ${createRadarState(
+    "searching",
+    "TARAMA DEVAM EDİYOR",
+    "İşletmeler aranıyor",
+    `${selectedDistrict} bölgesindeki ${selectedCategory} işletmeleri taranıyor.`
+  )}
+
+`;
 try {
 
   await fetchBusinessesFromOSM(
@@ -4320,6 +4907,10 @@ searchButton.classList.remove("loading");
     if (a.website && !b.website) return 1;
     return 0;
   });
+
+    await showRadarSuccess(
+  results.length
+);
 
    const noWebsiteCount = results.filter(
   business => business.websiteStatus === "not_found"
